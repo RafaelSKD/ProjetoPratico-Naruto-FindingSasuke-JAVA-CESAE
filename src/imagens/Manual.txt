@@ -1,0 +1,91 @@
+📜 Manual do Jogo
+🎯 Objetivo
+Explorar vilas, derrotar inimigos e sobreviver.
+
+Encontrar e derrotar Sasuke para trazê-lo de volta a Konoha.
+
+Nunca morrer (se a vida chegar a zero, o jogo acaba).
+
+🗺️ Mecânica Principal
+Escolha uma Zona no Mapa
+
+Cada vila tem inimigos, aliados ou Sasuke.
+
+Encontros Aleatórios
+
+Inimigos: Batalhas onde você usa ataques normais ou jutsus (que gastam chakra).
+
+Aliados: Podem dar itens gratuitos.
+
+Sasuke: Encontrá-lo desencadeia uma batalha final.
+
+Sistema de Batalha
+
+Ataque Normal: Dano baseado no seu ataque + itens que possam incrementar o mesmo.
+
+Jutsu: Dano maior, mas consome chakra.
+
+Defesa: Reduz dano recebido (depende da armadura).
+
+Afinidade de Chakra: Pode dar vantagem/desvantagem contra certos inimigos.
+
+Itens e Recursos
+
+💰 Dinheiro: Usado para comprar itens nas lojas.
+
+❤️ Vida: Se chegar a zero, você morre (fim de jogo).
+
+🌀 Chakra: Necessário para usar jutsus.
+
+⚔️ Armas: Aumentam o ataque.
+
+🛡️ Armaduras: Aumentam a defesa.
+
+🍖 Consumíveis: Recuperam vida ou chakra.
+
+🌟 Itens Especiais: Raros, dão buffs permanentes.
+
+Afinidade de Chakra
+
+Fogo > Vento > Relâmpago > Terra > Água > Fogo
+
+Ter vantagem aumenta o dano.
+
+🎮 Como Jogar
+Escolha uma Região
+
+Cada região tem inimigos diferentes.
+
+
+Explorar a Vila
+
+Enfrentar inimigos → Ganha dinheiro.
+
+Encontrar aliados → Ganha itens de graça.
+
+Procurar Sasuke → Se encontrá-lo, prepare-se para a batalha final!
+
+Gerenciar Recursos
+
+Use jutsus com sabedoria (sem chakra = sem jutsu).
+
+Equipe armas e armaduras para melhorar stats.
+
+Compre itens em lojas se necessário.
+
+Batalha Final contra Sasuke
+
+Ele é muito forte, então esteja preparado!
+
+Se vencer, você vence o jogo.
+
+Se morrer, game over.
+
+💡 Dicas
+✅ Sempre mantenha vida e chakra altos antes de explorar.
+✅ Equipe-se bem – armas e armaduras fazem diferença.
+✅ Aproveite afinidades elementais para causar mais dano.
+✅ Itens especiais são raros, mas valem a pena!
+
+🏁 Você está pronto para começar sua jornada?
+Encontre Sasuke, sobreviva e traga-o de volta para Konoha! 🔥🍥
