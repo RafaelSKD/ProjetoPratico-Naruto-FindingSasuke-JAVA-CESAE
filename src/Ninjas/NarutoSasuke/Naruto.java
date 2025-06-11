@@ -89,4 +89,39 @@ public class Naruto extends Ninja {
     public void setDinheiro(double dinheiro) {
         this.dinheiro = dinheiro;
     }
+
+    public void addConsumivel(Consumivel consumivel) {
+        if (bolsa == null) {
+            bolsa = new ArrayList<>();
+        }
+        bolsa.add(consumivel);
+    }
+
+    public void removeConsumivel(Consumivel consumivel) {
+        if (bolsa != null) {
+            bolsa.remove(consumivel);
+        }
+    }
+
+    public void addArma(Arma arma) {
+        this.arma = arma;
+    }
+    public void removeArma() {
+        this.arma = null;
+    }
+    public void addArmaduraCima(Armadura armadura, boolean isCima) {
+        if (isCima) {
+            this.cima = armadura;
+        } else {
+            this.baixo = armadura;
+        }
+    }
+    public void removeArmaduraCima(boolean isCima) {
+        if (isCima) {
+            this.cima = null;
+        } else {
+            this.baixo = null;
+        }
+    }
+
 }

@@ -6,6 +6,6 @@ import static Utils.Utils.*;
 
 public class print {
     public static void main(String[] args) throws FileNotFoundException {
-        imprimirFicheiro("src/imagens/Jutsu.txt");
+        imprimirFicheiro("src/imagens/Amigo.txt");
     }
 }

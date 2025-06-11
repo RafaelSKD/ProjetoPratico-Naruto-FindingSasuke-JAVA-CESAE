@@ -31,13 +31,77 @@ import static java.util.Collections.addAll;
 
 public class Jogo {
     private String nome = "Naruto - Finding Sasuke";
-    private Naruto naruto;
+    private static Naruto naruto;
     private Sasuke sasuke;
-    private ArrayList<Vila> listaVilas;
+    private static ArrayList<Vila> listaVilas;
     private ArrayList<Inimigo> listaInimigos;
     private ArrayList<Amigo> listaAmigos;
     private ArrayList<Item> listaItens;
     private ArrayList<AtaqueChakra> listaAtaqueChakra;
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public static Naruto getNaruto() {
+        return naruto;
+    }
+
+    public void setNaruto(Naruto naruto) {
+        this.naruto = naruto;
+    }
+
+    public Sasuke getSasuke() {
+        return sasuke;
+    }
+
+    public void setSasuke(Sasuke sasuke) {
+        this.sasuke = sasuke;
+    }
+
+    public static ArrayList<Vila> getListaVilas() {
+        return listaVilas;
+    }
+
+    public void setListaVilas(ArrayList<Vila> listaVilas) {
+        this.listaVilas = listaVilas;
+    }
+
+    public ArrayList<Inimigo> getListaInimigos() {
+        return listaInimigos;
+    }
+
+    public void setListaInimigos(ArrayList<Inimigo> listaInimigos) {
+        this.listaInimigos = listaInimigos;
+    }
+
+    public ArrayList<Amigo> getListaAmigos() {
+        return listaAmigos;
+    }
+
+    public void setListaAmigos(ArrayList<Amigo> listaAmigos) {
+        this.listaAmigos = listaAmigos;
+    }
+
+    public ArrayList<Item> getListaItens() {
+        return listaItens;
+    }
+
+    public void setListaItens(ArrayList<Item> listaItens) {
+        this.listaItens = listaItens;
+    }
+
+    public ArrayList<AtaqueChakra> getListaAtaqueChakra() {
+        return listaAtaqueChakra;
+    }
+
+    public void setListaAtaqueChakra(ArrayList<AtaqueChakra> listaAtaqueChakra) {
+        this.listaAtaqueChakra = listaAtaqueChakra;
+    }
 
     public void jogo(){
         inicializar();
@@ -535,6 +599,8 @@ public class Jogo {
         }
         return null;
     }
+
+
 }
 
 

@@ -44,7 +44,7 @@ public class Vila {
         this.listaNinjas.add(sasuke);
     }
 
-    public void morto(Ninja inimigoMorto){
-        this.listaNinjas.remove(inimigoMorto);
+    public void morto(Ninja morto){
+        this.listaNinjas.remove(morto);
     }
 }
