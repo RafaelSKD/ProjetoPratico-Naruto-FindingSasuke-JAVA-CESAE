@@ -1,10 +1,13 @@
 package Jogo.Menus;
 
+import Ninjas.Enum.Localizacao;
+
 import java.io.FileNotFoundException;
 import java.util.Scanner;
 
 import static Jogo.Menus.Konoha.konoha;
 import static Jogo.Menus.Utils.headerNavegacao;
+import static Jogo.Navegacao.EntrarVilaAleatoriaDaZona.entrarNaVila;
 import static Jogo.Paginas.Manual.manual;
 import static Utils.Utils.cleanConsole;
 import static Utils.Utils.imprimirFicheiro;
@@ -88,6 +91,7 @@ public class Navegacao {
                 cleanConsole();
                 imprimirFicheiro("src/imagens/Noroeste.txt");
                 sleep(1500);
+                entrarNaVila(Localizacao.NOROESTE);
                 break;
             case 3:
                 // System.out.println("Você escolheu o Sudeste - Ilhas e Litoral.");
@@ -97,6 +101,7 @@ public class Navegacao {
                 cleanConsole();
                 imprimirFicheiro("src/imagens/Sudeste.txt");
                 sleep(1500);
+                entrarNaVila(Localizacao.SUDESTE);
                 break;
             case 4:
                 // System.out.println("Você escolheu o Sudoeste - Deserto.");
@@ -106,6 +111,7 @@ public class Navegacao {
                 cleanConsole();
                 imprimirFicheiro("src/imagens/Sudoeste.txt");
                 sleep(1500);
+                entrarNaVila(Localizacao.SUDOESTE);
                 break;
             case 5:
                 // System.out.println("Você escolheu o Nordeste - Montanhas e Nuvens.");
@@ -115,6 +121,7 @@ public class Navegacao {
                 cleanConsole();
                 imprimirFicheiro("src/imagens/Nordeste.txt");
                 sleep(1500);
+                entrarNaVila(Localizacao.NORDESTE);
                 break;
             case 6:
                 //System.out.println("Você escolheu o Central-Oriental - Instável e Chuvosa.");
@@ -124,6 +131,7 @@ public class Navegacao {
                 cleanConsole();
                 imprimirFicheiro("src/imagens/CentralOriente.txt");
                 sleep(1500);
+                entrarNaVila(Localizacao.CENTRALORIENTE);
                 break;
         }
     }

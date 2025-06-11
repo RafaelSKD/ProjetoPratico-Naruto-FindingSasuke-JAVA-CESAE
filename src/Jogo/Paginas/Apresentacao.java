@@ -11,10 +11,10 @@ public class Apresentacao {  // imagem de apresentacao do jogo
 
     public static void inicio() throws IOException, InterruptedException {
         apresentacao();
-        iniciarNovoJogo();
+//        iniciarNovoJogo();
         intro();
-        sasukeFugir();
-        narutoCorrer();
+//        sasukeFugir();
+//        narutoCorrer();
     }
 
     public static void apresentacao() throws FileNotFoundException {

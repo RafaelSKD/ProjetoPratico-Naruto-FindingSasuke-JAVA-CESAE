@@ -18,17 +18,7 @@ public class MenuTestes {
 
         // testar fit
 
-        String nomeArma = "sadfasdfasdfasd";
-        String ataqueArma = "123";
-        String tipoArma = "ATAQUE";
-        String forca = "25";
-        System.out.println("                                                  " + "amigo.getNome()" + " e um aliado e cedeu te a arma " + "arma.getNome()" + "!!!\n\n");
-        System.out.println("                               " + "Arma Equipada                                            Arma Nova         \n");
-        System.out.println("                               ░░░░░░ Nome ░░░░░░ :  " + nomeArma + getSpaces(nomeArma) + "░░░░░░ Nome ░░░░░░ :  " + "arma.getNome()");
-        System.out.println("                               ░░ Ataque Extra ░░ :  " + ataqueArma + getSpaces(ataqueArma) + "░░ Ataque Extra ░░ :  " + "arma.getAtaqueArma()");
-        System.out.println("                               ░░░░░░ Tipo ░░░░░░ :  " + tipoArma + getSpaces(tipoArma) + "░░░░░░ Tipo ░░░░░░ :  " + "arma.getTipo()");
-        System.out.println("                               ░ Forca do Efeito░ :  " + forca + getSpaces(forca) + "░ Forca do Efeito░ :  " + "arma.getForcaDoEfeito())");
-        System.out.println("                                                                    Queres trocar? (S/N)");
+        System.out.println("                                               asasfasfasfasf adicionado com sucesso a bolsa de itens                ");
     }
 
 }

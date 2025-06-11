@@ -9,7 +9,7 @@ import java.util.ArrayList;
 public class Vila {
     private String nome; // nome da vila
     private Localizacao localizacao; // onde a vila esta no mapa
-    private ArrayList<Ninja> listaNinjas; // lista de possiveis inimigos, amigos e se tem ou nao o sasuke
+    private ArrayList<Ninja> listaNinjas = new ArrayList<>();; // lista de possiveis inimigos, amigos e se tem ou nao o sasuke
 
     public Vila(String nome, Localizacao localizacao) {
         this.nome = nome;

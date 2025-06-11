@@ -32,11 +32,11 @@ import static java.util.Collections.addAll;
 public class Jogo {
     private String nome = "Naruto - Finding Sasuke";
     private static Naruto naruto;
-    private Sasuke sasuke;
+    private static Sasuke sasuke;
     private static ArrayList<Vila> listaVilas;
-    private ArrayList<Inimigo> listaInimigos;
-    private ArrayList<Amigo> listaAmigos;
-    private ArrayList<Item> listaItens;
+    private static ArrayList<Inimigo> listaInimigos;
+    private static ArrayList<Amigo> listaAmigos;
+    private static ArrayList<Item> listaItens;
     private ArrayList<AtaqueChakra> listaAtaqueChakra;
 
     public String getNome() {
@@ -103,22 +103,22 @@ public class Jogo {
         this.listaAtaqueChakra = listaAtaqueChakra;
     }
 
-    public void jogo(){
+    public static void jogo(){
         inicializar();
     }
 
-    public void inicializar(){
-        this.listaVilas = inicializarMapa();
-        this.naruto = inicializarNaruto();
-        this.sasuke = inicializarSasuke();
-        this.listaAmigos = (ArrayList<Amigo>) inicializarAmigos();
-        this.listaInimigos = (ArrayList<Inimigo>) inicializarInimigos();
-        this.listaItens = new ArrayList<>();
-        this.listaItens.addAll(inicializarArmaduras());
-        this.listaItens.addAll(inicializarArmas());
-        this.listaItens.addAll(inicializarConsumiveis());
-        this.listaItens.addAll(inicializarEspeciais());
-        this.listaItens.addAll(inicializarAtaquesChakra());
+    public static void inicializar(){
+        Jogo.listaVilas = inicializarMapa();
+        Jogo.naruto = inicializarNaruto();
+        Jogo.sasuke = inicializarSasuke();
+        Jogo.listaAmigos = (ArrayList<Amigo>) inicializarAmigos();
+        Jogo.listaInimigos = (ArrayList<Inimigo>) inicializarInimigos();
+        Jogo.listaItens = new ArrayList<>();
+        Jogo.listaItens.addAll(inicializarArmaduras());
+        Jogo.listaItens.addAll(inicializarArmas());
+        Jogo.listaItens.addAll(inicializarConsumiveis());
+        Jogo.listaItens.addAll(inicializarEspeciais());
+        Jogo.listaItens.addAll(inicializarAtaquesChakra());
         distribuirArmas();  //distribui as armas para os caracteres certos e coloca armadura no sasuke
         distribuirItens();  // distribui itens pelos amigos
         atribuirAtaques(); // atribui os ataques de Chakra
@@ -126,43 +126,43 @@ public class Jogo {
         esconderSasuke(); // esconde o sasuke numa vila aleatoria
     }
 
-    public void esconderSasuke() {
+    public static void esconderSasuke() {
         // Cria uma lista de vilas válidas, exceto "Konohagakure"
         ArrayList<Vila> vilasPossiveis = new ArrayList<>();
 
-        for (Vila vila : this.listaVilas) {
+        for (Vila vila : Jogo.listaVilas) {
             if (!vila.getNome().equals("Konohagakure (Vila da Folha)")) {
                 vilasPossiveis.add(vila);
             }
         }
         // Escolhe uma vila aleatória entre as possíveis
         int indiceAleatorio = random(vilasPossiveis.size());
-        vilasPossiveis.get(indiceAleatorio).addSasuke(this.sasuke);
+        vilasPossiveis.get(indiceAleatorio).addSasuke(Jogo.sasuke);
     }
 
-    private void distribuirItens() {
-        ArrayList<Consumivel> consumivel = null;
-         for (Item item : this.listaItens){
+    private static void distribuirItens() {
+        ArrayList<Consumivel> consumivel = new ArrayList<>();
+         for (Item item : Jogo.listaItens){
              if (item instanceof Consumivel) {
                  consumivel.add((Consumivel) item);
              }
          }
          int quantidadeConsumiveis = consumivel.size();
-         for (Amigo amigo : this.listaAmigos)
+         for (Amigo amigo : Jogo.listaAmigos)
              amigo.setItem(consumivel.get(random(quantidadeConsumiveis)));
     } // distribui itens pelos amigos
 
-    private void distribuirArmas(){
-        for (Item arma : this.listaItens) {
+    private static void distribuirArmas(){
+        for (Item arma : Jogo.listaItens) {
             if (arma instanceof Armadura) {
                 Armadura armadura = (Armadura) arma;
 
                 if (arma.getNome().equalsIgnoreCase("Manto Uchiha Superior")) {
-                    this.sasuke.setCima(armadura);
+                    Jogo.sasuke.setCima(armadura);
                 }
 
                 if (arma.getNome().equalsIgnoreCase("Calças Táticas Uchiha")) {
-                    this.sasuke.setBaixo(armadura);
+                    Jogo.sasuke.setBaixo(armadura);
                 }
             }
 
@@ -170,7 +170,7 @@ public class Jogo {
                 Arma armaConvertida = (Arma) arma;
 
                 if (arma.getNome().equalsIgnoreCase("Kusanagi")) {
-                    this.sasuke.setArma(armaConvertida);
+                    Jogo.sasuke.setArma(armaConvertida);
                 }
 
                 if (arma.getNome().equalsIgnoreCase("Cabaça de Areia")) {
@@ -429,7 +429,7 @@ public class Jogo {
         }
     }//distribui as armas para os caracteres certos e coloca armadura no sasuke
 
-    public void organizar() {
+    public static void organizar() {
         // Listas para armazenar as vilas separadas por região
         ArrayList<Vila> centralOrienteVilas = new ArrayList<>();
         ArrayList<Vila> nordesteVilas = new ArrayList<>();
@@ -438,7 +438,7 @@ public class Jogo {
         ArrayList<Vila> sudoesteVilas = new ArrayList<>();
 
         // Distribui cada vila na sua respectiva lista regional
-        for (Vila vila : this.listaVilas) {
+        for (Vila vila : Jogo.listaVilas) {
             switch (vila.getLocalizacao()) {
                 case CENTRALORIENTE -> centralOrienteVilas.add(vila);
                 case NORDESTE -> nordesteVilas.add(vila);
@@ -456,7 +456,7 @@ public class Jogo {
         ArrayList<Ninja> sudoesteNinjas = new ArrayList<>();
 
         // Adiciona todos os ninjas (inimigos e amigos) nas listas regionais
-        for (Inimigo ninja : this.listaInimigos) {
+        for (Inimigo ninja : Jogo.listaInimigos) {
             switch (ninja.getLocalizacao()) {
                 case CENTRALORIENTE -> centralOrienteNinjas.add(ninja);
                 case NORDESTE -> nordesteNinjas.add(ninja);
@@ -465,7 +465,7 @@ public class Jogo {
                 case SUDOESTE -> sudoesteNinjas.add(ninja);
             }
         }
-        for (Amigo ninja : this.listaAmigos) {
+        for (Amigo ninja : Jogo.listaAmigos) {
             switch (ninja.getLocalizacao()) {
                 case CENTRALORIENTE -> centralOrienteNinjas.add(ninja);
                 case NORDESTE -> nordesteNinjas.add(ninja);
@@ -490,7 +490,7 @@ public class Jogo {
         distribuirNinjasPorVilas(sudoesteVilas, sudoesteNinjas);
     }
 
-    private void distribuirNinjasPorVilas(ArrayList<Vila> vilas, ArrayList<Ninja> ninjas) {
+    private static void distribuirNinjasPorVilas(ArrayList<Vila> vilas, ArrayList<Ninja> ninjas) {
         if (vilas.isEmpty() || ninjas.isEmpty()) {
             return; // Não há vilas ou ninjas para distribuir
         }
@@ -505,24 +505,24 @@ public class Jogo {
         }
     }
 
-    private void atribuirAtaques() {
-        for (Item ataqueChakra : this.listaItens) {
+    private static void atribuirAtaques() {
+        for (Item ataqueChakra : Jogo.listaItens) {
             if (ataqueChakra instanceof AtaqueChakra) {
                 AtaqueChakra ataque = (AtaqueChakra) ataqueChakra;
 
                 // Sasuke
                 if (ataqueChakra.getNome().equalsIgnoreCase("Chidori")) {
-                    this.sasuke.setAtaqueEspecial1(ataque);
+                    Jogo.sasuke.setAtaqueEspecial1(ataque);
                 }
                 if (ataqueChakra.getNome().equalsIgnoreCase("Amaterasu")) {
-                    this.sasuke.setAtaqueEspecial2(ataque);
+                    Jogo.sasuke.setAtaqueEspecial2(ataque);
                 }
                 // Naruto
                 if (ataqueChakra.getNome().equalsIgnoreCase("Rasengan")) {
-                    this.naruto.setAtaqueEspecial1(ataque);
+                    Jogo.naruto.setAtaqueEspecial1(ataque);
                 }
                 if (ataqueChakra.getNome().equalsIgnoreCase("Rasen-Shuriken")) {
-                    this.naruto.setAtaqueEspecial2(ataque);
+                    Jogo.naruto.setAtaqueEspecial2(ataque);
                 }
 
                 // Inimigos
@@ -591,7 +591,7 @@ public class Jogo {
         }
     }
 
-    private Inimigo buscarInimigo(String nome) {
+    private static Inimigo buscarInimigo(String nome) {
         for (Inimigo inimigo : listaInimigos) {
             if (inimigo.getNome().equalsIgnoreCase(nome)) {
                 return inimigo;
