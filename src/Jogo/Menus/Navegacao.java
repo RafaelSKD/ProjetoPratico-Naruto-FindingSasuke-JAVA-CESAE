@@ -1,25 +1,37 @@
 package Jogo.Menus;
 
+import Jogo.Jogo;
 import Ninjas.Enum.Localizacao;
 
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.Scanner;
 
 import static Jogo.Menus.Konoha.konoha;
 import static Jogo.Menus.Utils.headerNavegacao;
 import static Jogo.Navegacao.EntrarVilaAleatoriaDaZona.entrarNaVila;
+import static Jogo.Paginas.Apresentacao.lose;
+import static Jogo.Paginas.Apresentacao.win;
 import static Jogo.Paginas.Manual.manual;
 import static Utils.Utils.cleanConsole;
 import static Utils.Utils.imprimirFicheiro;
 import static java.lang.Thread.sleep;
 
 public class Navegacao {
-    public static void main(String[] args) throws InterruptedException, FileNotFoundException {
+    public static void main(String[] args) throws InterruptedException, IOException {
         menuNavegacao();
     }
-    public static void menuNavegacao() throws InterruptedException, FileNotFoundException {
-        while (true) {
+    public static void menuNavegacao() throws InterruptedException, IOException {
+        while ((Jogo.getNaruto()).getVida() > 0 && (Jogo.getSasuke()).getVida() > 0) {
             dispacher(menu());
+        }
+        if ((Jogo.getNaruto()).getVida() < 0){
+            cleanConsole();
+            lose();
+        }
+        if ((Jogo.getSasuke()).getVida() < 0){
+            cleanConsole();
+            win();
         }
     }
     private static int menu() throws InterruptedException {
@@ -33,7 +45,7 @@ public class Navegacao {
             System.out.println("\n\n                                                            :::::ESCOLHA O SEU DESTINO:::::                                                           ");
             System.out.println("                                                                       ᯓ\uD83C\uDFC3\uD83C\uDFFB\u200D♀\uFE0F\u200D➡\uFE0Eજ⁀➴⛰\uFE0E");
             System.out.println("\n\n\n");
-            System.out.println("                 Central- Coração Político e Comercial PREMIR: 1                         Sudoeste - Deserto  -                    PREMIR 4                ");
+            System.out.println("                             KONOHA                    PREMIR: 1                         Sudoeste - Deserto  -                    PREMIR 4                ");
             System.out.println();
             System.out.println("                                 \uD83C\uDFEF\uD83C\uDFEF\uD83C\uDFEF \uD83E\uDEF8⛩\uFE0F\uD83E\uDEF7                                                           \uD83C\uDFDC\uFE0F☀\uFE0F\uD83D\uDC2B\uD83C\uDF35⚱\uFE0F⌛");
             System.out.println();

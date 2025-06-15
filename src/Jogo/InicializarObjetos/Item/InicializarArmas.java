@@ -14,14 +14,14 @@ public class InicializarArmas {
         List<Arma> armas = new ArrayList<>();
 
         // Armas que o Naruto pode ter
-        armas.add(new Arma("Kusarigama de Chakra", TipoItem.ARMA, HabilidadeArma.ATAQUE, 10, 100, 10, 1000));
-        armas.add(new Arma("Bastão do Sábio dos Seis Caminhos", TipoItem.ARMA, HabilidadeArma.DEFESA, 30, 100 , 10, 1000));
-        armas.add(new Arma("Shuriken Elementais Gigantes", TipoItem.ARMA, HabilidadeArma.ATAQUE, 5, 100, 60, 1000));
-        armas.add(new Arma("Cajado Tessen", TipoItem.ARMA, HabilidadeArma.ATAQUE, 10, 100, 10, 1000));
-        armas.add(new Arma("Flechas de Chakra", TipoItem.ARMA, HabilidadeArma.ESPECIAL, 100, 0, 10, 1000));
-        armas.add(new Arma("Samehada", TipoItem.ARMA, HabilidadeArma.ESPECIAL, 5, 100, 5, 1000));
-        armas.add(new Arma("Kunai Especial do Minato", TipoItem.ARMA, HabilidadeArma.ESPECIAL, 20, 50, 50, 1000));
-        armas.add(new Arma("Shuriken", TipoItem.ARMA, HabilidadeArma.ATAQUE, 5, 100, 100, 1000));
+        armas.add(new Arma("Kusarigama de Chakra", TipoItem.ARMA, HabilidadeArma.ATAQUE, 10, 100, 10, 500));
+        armas.add(new Arma("Bastão do Sábio dos Seis Caminhos", TipoItem.ARMA, HabilidadeArma.DEFESA, 30, 100 , 10, 700));
+        armas.add(new Arma("Shuriken Elementais Gigantes", TipoItem.ARMA, HabilidadeArma.ATAQUE, 5, 80, 60, 600));
+        armas.add(new Arma("Cajado Tessen", TipoItem.ARMA, HabilidadeArma.ATAQUE, 10, 80, 10, 500));
+        armas.add(new Arma("Flechas de Chakra", TipoItem.ARMA, HabilidadeArma.ESPECIAL, 70, 0, 20, 650));
+        armas.add(new Arma("Samehada", TipoItem.ARMA, HabilidadeArma.ESPECIAL, 20, 100, 25, 650));
+        armas.add(new Arma("Kunai Especial do Minato", TipoItem.ARMA, HabilidadeArma.ESPECIAL, 20, 50, 50, 700));
+        armas.add(new Arma("Shuriken", TipoItem.ARMA, HabilidadeArma.ATAQUE, 5, 100, 45, 300));
 
         // Armas dos NPCs
         armas.add(new Arma("Cabaça de Areia", TipoItem.ARMA, HabilidadeArma.DEFESA, 40, 80, 0, 1000));

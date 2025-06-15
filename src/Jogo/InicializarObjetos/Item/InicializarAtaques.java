@@ -11,13 +11,13 @@ public class InicializarAtaques {
     public static List<AtaqueChakra> inicializarAtaquesChakra() {
         List<AtaqueChakra> ataques = new ArrayList<>();
 
-        // ░░░ NARUTO ░░░
-        ataques.add(new AtaqueChakra("Rasengan", TipoItem.ATAQUEESPECIAL, 120.0, 80.0));
-        ataques.add(new AtaqueChakra("Rasen-Shuriken", TipoItem.ATAQUEESPECIAL, 200.0, 140.0));
+// Naruto
+        ataques.add(new AtaqueChakra("Rasengan", TipoItem.ATAQUEESPECIAL, 100.0, 90.0));
+        ataques.add(new AtaqueChakra("Rasen-Shuriken", TipoItem.ATAQUEESPECIAL, 160.0, 150.0));
 
-        // ░░░ SASUKE ░░░
-        ataques.add(new AtaqueChakra("Chidori", TipoItem.ATAQUEESPECIAL, 130.0, 85.0));
-        ataques.add(new AtaqueChakra("Amaterasu", TipoItem.ATAQUEESPECIAL, 190.0, 130.0));
+// Sasuke
+        ataques.add(new AtaqueChakra("Chidori", TipoItem.ATAQUEESPECIAL, 110.0, 90.0));
+        ataques.add(new AtaqueChakra("Amaterasu", TipoItem.ATAQUEESPECIAL, 150.0, 140.0));
 
 // ░░░ ATAQUES ESPECIAIS DOS PERSONAGENS ░░░
 // Gaara

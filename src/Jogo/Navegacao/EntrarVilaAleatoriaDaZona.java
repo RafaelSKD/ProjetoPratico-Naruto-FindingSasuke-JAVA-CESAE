@@ -12,12 +12,15 @@ import Ninjas.Enum.Localizacao;
 import Ninjas.NPC.Bons.Amigo;
 import Ninjas.NPC.Maus.Inimigo;
 import Ninjas.NarutoSasuke.Naruto;
+import Ninjas.NarutoSasuke.Sasuke;
 import Ninjas.Ninja;
 
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import static Jogo.Menus.Luta.menuLuta;
+import static Jogo.Menus.Luta.menuLutaFinal;
 import static Jogo.Menus.Utils.getSpaces;
 import static Utils.Utils.*;
 import static java.lang.Thread.sleep;
@@ -222,7 +225,7 @@ public class EntrarVilaAleatoriaDaZona {
                     System.out.println("                               " + "Especial Equipado                                        Especial Novo         \n");
                     System.out.println("                               ░░░░░░ Nome ░░░░░░ :  " + especial1.getNome() + getSpaces(especial1.getNome()) + "░░░░░░ Nome ░░░░░░ :  " + especial.getNome());
                     System.out.println("                               ░░░░░░ Tipo ░░░░░░ :  " + especial1.getTipo() + getSpaces(especial1.getTipo().name()) + "░░░░░░ Tipo ░░░░░░ :  " + especial.getTipo());
-                    System.out.println("                               ░ Forca do Efeito░ :  " + especial1.getPercentagemEfeito() + getSpaces(String.valueOf(especial1.getPercentagemEfeito())) + "░ Forca do Efeito░ :  " + especial.getPercentagemEfeito());
+                    System.out.println("                               ░ Forca do Efeito░ :  " + especial1.getEfeito() + getSpaces(String.valueOf(especial1.getEfeito())) + "░ Forca do Efeito░ :  " + especial.getEfeito());
                     System.out.println("\n\n");
                     System.out.println("                                                                    Queres trocar? (S/N)");
                     do {
@@ -246,9 +249,65 @@ public class EntrarVilaAleatoriaDaZona {
         }
 
         if (ninja instanceof Inimigo) {
+            int flag = 0;
+            if (naruto.getEspecial() != null){
+                aplicarEfeitosEspecial();
+                flag = 1;
+            }
             cleanConsole();
-            System.out.println("cheguei aqui");
+            imprimirFicheiro("src/imagens/InimigoEncontrado.txt");
             sleep(2000);
+            cleanConsole();
+            menuLuta((Inimigo) ninja, vila);
+            if (flag == 1)
+                retirarEfeitosEspecial();
         }
+
+        if (ninja instanceof Sasuke) {
+            int flag = 0;
+            if (naruto.getEspecial() != null){
+                aplicarEfeitosEspecial();
+                flag = 1;
+            }
+            cleanConsole();
+            imprimirFicheiro("src/imagens/SasukeEncontrado.txt");
+            sleep(2000);
+            cleanConsole();
+            imprimirFicheiro("src/imagens/LutaFinal.txt");
+            sleep(2000);
+            menuLutaFinal((Sasuke) ninja, vila);
+            if (flag == 1)
+                retirarEfeitosEspecial();
+        }
+    }
+
+    private static void aplicarEfeitosEspecial(){
+        Naruto naruto = Jogo.getNaruto();
+        Especial especial = naruto.getEspecial();
+
+        if (especial.isAtaque())
+            naruto.setAtaque(naruto.getAtaque() + especial.getEfeito());
+        if (especial.isDefesa())
+            naruto.setDefesa(naruto.getDefesa() + especial.getEfeito());
+        if (especial.isVida())
+            naruto.setVida(naruto.getVida() + especial.getEfeito());
+        if (especial.isChakra())
+            naruto.setChakra(naruto.getChakra() + especial.getEfeito());
+
+    }
+
+    private static void retirarEfeitosEspecial(){
+        Naruto naruto = Jogo.getNaruto();
+        Especial especial = naruto.getEspecial();
+
+        if (especial.isAtaque())
+            naruto.setAtaque(naruto.getAtaque() - especial.getEfeito());
+        if (especial.isDefesa())
+            naruto.setDefesa(naruto.getDefesa() - especial.getEfeito());
+        if (especial.isVida())
+            naruto.setVida(naruto.getVida() - especial.getEfeito());
+        if (especial.isChakra())
+            naruto.setChakra(naruto.getChakra() - especial.getEfeito());
+
     }
 }

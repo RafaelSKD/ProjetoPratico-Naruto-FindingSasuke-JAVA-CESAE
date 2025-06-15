@@ -8,11 +8,11 @@ public class InicializarNaruto {
         Naruto naruto = new Naruto(
                 "Naruto Uzumaki",
                 Afinidade.VENTO,
-                1000.0, // chakra
-                350.0,  // defesa
-                400.0,  // ataque
-                900.0,  // vida
-                500 // dinheiro
+                600.0, // chakra
+                200.0,  // defesa
+                430.0,  // ataque
+                1000.0,  // vida
+                2500 // dinheiro
         );
 
         return naruto;

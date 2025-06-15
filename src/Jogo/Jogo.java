@@ -4,6 +4,7 @@ import Itens.Armaduras.Armadura;
 import Itens.Armas.Arma;
 import Itens.AtaqueChakra.AtaqueChakra;
 import Itens.Consumiveis.Consumivel;
+import Itens.Especial.Especial;
 import Itens.Item;
 import Mapa.Vila;
 import Ninjas.Enum.Localizacao;
@@ -14,7 +15,9 @@ import Ninjas.NarutoSasuke.Sasuke;
 import Ninjas.Ninja;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
 
 import static Jogo.InicializarObjetos.Item.InicializarArmaduras.inicializarArmaduras;
 import static Jogo.InicializarObjetos.Item.InicializarArmas.inicializarArmas;
@@ -38,6 +41,41 @@ public class Jogo {
     private static ArrayList<Amigo> listaAmigos;
     private static ArrayList<Item> listaItens;
     private ArrayList<AtaqueChakra> listaAtaqueChakra;
+    private static ArrayList<Item> LojaTenTen;
+
+    public static ArrayList<Item> getLojaTenTen() {
+        return LojaTenTen;
+    }
+
+    public static void setLojaTenTen(ArrayList<Item> lojaTenTen) {
+        LojaTenTen = lojaTenTen;
+    }
+
+    public static void addLojaTenTen() {
+        LojaTenTen = new ArrayList<>();
+
+        while (LojaTenTen.size() < 11) {
+            int index = random(listaItens.size());
+            Item item = listaItens.get(index);
+
+            if (item instanceof Arma) {
+                Arma arma = (Arma) item;
+                if (random(100) < arma.getSpawn()) {
+                    LojaTenTen.add(arma);
+                }
+            } else if (item instanceof Consumivel) {
+                Consumivel consumivel = (Consumivel) item;
+                if (random(100) < consumivel.getSpawn()) {
+                    LojaTenTen.add(consumivel);
+                }
+            } else if (item instanceof Especial) {
+                Especial especial = (Especial) item;
+                if (random(100) < especial.getSpawn()) {
+                    LojaTenTen.add(especial);
+                }
+            }
+        }
+    }
 
     public String getNome() {
         return nome;
@@ -55,7 +93,7 @@ public class Jogo {
         this.naruto = naruto;
     }
 
-    public Sasuke getSasuke() {
+    public static Sasuke getSasuke() {
         return sasuke;
     }
 
@@ -119,6 +157,7 @@ public class Jogo {
         Jogo.listaItens.addAll(inicializarConsumiveis());
         Jogo.listaItens.addAll(inicializarEspeciais());
         Jogo.listaItens.addAll(inicializarAtaquesChakra());
+        addLojaTenTen(); // adiciona itens a loja
         distribuirArmas();  //distribui as armas para os caracteres certos e coloca armadura no sasuke
         distribuirItens();  // distribui itens pelos amigos
         atribuirAtaques(); // atribui os ataques de Chakra
@@ -141,16 +180,40 @@ public class Jogo {
     }
 
     private static void distribuirItens() {
-        ArrayList<Consumivel> consumivel = new ArrayList<>();
-         for (Item item : Jogo.listaItens){
-             if (item instanceof Consumivel) {
-                 consumivel.add((Consumivel) item);
-             }
-         }
-         int quantidadeConsumiveis = consumivel.size();
-         for (Amigo amigo : Jogo.listaAmigos)
-             amigo.setItem(consumivel.get(random(quantidadeConsumiveis)));
-    } // distribui itens pelos amigos
+        ArrayList<Item> todosItens = new ArrayList<>();
+
+        // Nomes permitidos (armas, especiais, armaduras específicas)
+        String[] nomesPermitidos = {
+                "Kusarigama de Chakra", "Bastão do Sábio dos Seis Caminhos", "Shuriken Elementais Gigantes",
+                "Cajado Tessen", "Flechas de Chakra", "Samehada", "Kunai Especial do Minato", "Shuriken",
+                "Selo Amaldiçoado de Orochimaru", "Orbe de Chakra das Bestas com Cauda",
+                "Olho do Mangekyou Sharingan", "Marca do Sábio", "Coroa da Sálvia de Myōboku",
+                "Casaco do Sábio", "Manto Reforçado de Konoha", "Jaqueta de Treinamento Chunin",
+                "Calças do Sábio dos Seis Caminhos", "Calças da Anbu", "Calças de Campo Ninja"
+        };
+
+        for (Item item : Jogo.listaItens) {
+            if (item instanceof Consumivel) {
+                todosItens.add(item); // adiciona todos os consumíveis
+            } else {
+                // verifica se o nome do item está no array permitido
+                for (String nome : nomesPermitidos) {
+                    if (nome.equals(item.getNome())) {
+                        todosItens.add(item);
+                        break;
+                    }
+                }
+            }
+        }
+
+        // Distribui aleatoriamente os itens
+        int quantidadeItens = todosItens.size();
+        for (Amigo amigo : Jogo.listaAmigos) {
+            int indexAleatorio = random(quantidadeItens);
+            amigo.setItem(todosItens.get(indexAleatorio));
+        }
+    }
+ // distribui itens pelos amigos
 
     private static void distribuirArmas(){
         for (Item arma : Jogo.listaItens) {
@@ -511,85 +574,110 @@ public class Jogo {
                 AtaqueChakra ataque = (AtaqueChakra) ataqueChakra;
 
                 // Sasuke
-                if (ataqueChakra.getNome().equalsIgnoreCase("Chidori")) {
+                if (ataque.getNome().equalsIgnoreCase("Chidori")) {
                     Jogo.sasuke.setAtaqueEspecial1(ataque);
                 }
-                if (ataqueChakra.getNome().equalsIgnoreCase("Amaterasu")) {
+                if (ataque.getNome().equalsIgnoreCase("Amaterasu")) {
                     Jogo.sasuke.setAtaqueEspecial2(ataque);
                 }
+
                 // Naruto
-                if (ataqueChakra.getNome().equalsIgnoreCase("Rasengan")) {
+                if (ataque.getNome().equalsIgnoreCase("Rasengan")) {
                     Jogo.naruto.setAtaqueEspecial1(ataque);
                 }
-                if (ataqueChakra.getNome().equalsIgnoreCase("Rasen-Shuriken")) {
+                if (ataque.getNome().equalsIgnoreCase("Rasen-Shuriken")) {
                     Jogo.naruto.setAtaqueEspecial2(ataque);
                 }
 
                 // Inimigos
-                if (ataqueChakra.getNome().equalsIgnoreCase("Caixão de Areia")) {
-                    buscarInimigo("Gaara").setAtaqueEspecial1(ataque);
+                if (ataque.getNome().equalsIgnoreCase("Caixão de Areia")) {
+                    Inimigo g = buscarInimigo("Gaara");
+                    if (g != null) g.setAtaqueEspecial1(ataque);
                 }
-                if (ataqueChakra.getNome().equalsIgnoreCase("Areia Imperial: Prisão Funerária")) {
-                    buscarInimigo("Gaara").setAtaqueEspecial2(ataque);
+                if (ataque.getNome().equalsIgnoreCase("Areia Imperial: Prisão Funerária")) {
+                    Inimigo g = buscarInimigo("Gaara");
+                    if (g != null) g.setAtaqueEspecial2(ataque);
                 }
-                if (ataqueChakra.getNome().equalsIgnoreCase("Controle de Marionetes Humanas")) {
-                    buscarInimigo("Kankuro").setAtaqueEspecial1(ataque);
-                    buscarInimigo("Sasori").setAtaqueEspecial1(ataque);
+                if (ataque.getNome().equalsIgnoreCase("Controle de Marionetes Humanas")) {
+                    Inimigo k = buscarInimigo("Kankuro");
+                    if (k != null) k.setAtaqueEspecial1(ataque);
+                    Inimigo s = buscarInimigo("Sasori");
+                    if (s != null) s.setAtaqueEspecial1(ataque);
                 }
-                if (ataqueChakra.getNome().equalsIgnoreCase("Estilo das Cobras Ocultas")) {
-                    buscarInimigo("Orochimaru").setAtaqueEspecial1(ataque);
+                if (ataque.getNome().equalsIgnoreCase("Estilo das Cobras Ocultas")) {
+                    Inimigo o = buscarInimigo("Orochimaru");
+                    if (o != null) o.setAtaqueEspecial1(ataque);
                 }
-                if (ataqueChakra.getNome().equalsIgnoreCase("Respiração Venenosa")) {
-                    buscarInimigo("Kabuto").setAtaqueEspecial1(ataque);
+                if (ataque.getNome().equalsIgnoreCase("Respiração Venenosa")) {
+                    Inimigo kab = buscarInimigo("Kabuto");
+                    if (kab != null) kab.setAtaqueEspecial1(ataque);
                 }
-                if (ataqueChakra.getNome().equalsIgnoreCase("Pulso Curativo Uzumaki")) {
-                    buscarInimigo("Karin").setAtaqueEspecial1(ataque);
+                if (ataque.getNome().equalsIgnoreCase("Pulso Curativo Uzumaki")) {
+                    Inimigo karin = buscarInimigo("Karin");
+                    if (karin != null) karin.setAtaqueEspecial1(ataque);
                 }
-                if (ataqueChakra.getNome().equalsIgnoreCase("Liberação de Poeira: Desintegração")) {
-                    buscarInimigo("Ohnoki").setAtaqueEspecial1(ataque);
-                    buscarInimigo("Kurotsuchi").setAtaqueEspecial1(ataque);
+                if (ataque.getNome().equalsIgnoreCase("Liberação de Poeira: Desintegração")) {
+                    Inimigo o = buscarInimigo("Ohnoki");
+                    if (o != null) o.setAtaqueEspecial1(ataque);
+                    Inimigo k = buscarInimigo("Kurotsuchi");
+                    if (k != null) k.setAtaqueEspecial1(ataque);
                 }
-                if (ataqueChakra.getNome().equalsIgnoreCase("Jutsu Supremo: Estilo de Poeira Atômica")) {
-                    buscarInimigo("Ohnoki").setAtaqueEspecial2(ataque);
+                if (ataque.getNome().equalsIgnoreCase("Jutsu Supremo: Estilo de Poeira Atômica")) {
+                    Inimigo o = buscarInimigo("Ohnoki");
+                    if (o != null) o.setAtaqueEspecial2(ataque);
                 }
-                if (ataqueChakra.getNome().equalsIgnoreCase("Argila Explosiva: C2")) {
-                    buscarInimigo("Deidara").setAtaqueEspecial1(ataque);
+                if (ataque.getNome().equalsIgnoreCase("Argila Explosiva: C2")) {
+                    Inimigo d = buscarInimigo("Deidara");
+                    if (d != null) d.setAtaqueEspecial1(ataque);
                 }
-                if (ataqueChakra.getNome().equalsIgnoreCase("Estilo Oito Espadas")) {
-                    buscarInimigo("Roshi").setAtaqueEspecial1(ataque);
-                    buscarInimigo("Han").setAtaqueEspecial1(ataque);
+                if (ataque.getNome().equalsIgnoreCase("Estilo Oito Espadas")) {
+                    Inimigo r = buscarInimigo("Roshi");
+                    if (r != null) r.setAtaqueEspecial1(ataque);
+                    Inimigo h = buscarInimigo("Han");
+                    if (h != null) h.setAtaqueEspecial1(ataque);
                 }
-                if (ataqueChakra.getNome().equalsIgnoreCase("Lariat Relâmpago")) {
-                    buscarInimigo("A (Raikage)").setAtaqueEspecial1(ataque);
-                    buscarInimigo("Killer Bee").setAtaqueEspecial1(ataque);
+                if (ataque.getNome().equalsIgnoreCase("Lariat Relâmpago")) {
+                    Inimigo a = buscarInimigo("A (Raikage)");
+                    if (a != null) a.setAtaqueEspecial1(ataque);
+                    Inimigo kb = buscarInimigo("Killer Bee");
+                    if (kb != null) kb.setAtaqueEspecial1(ataque);
                 }
-                if (ataqueChakra.getNome().equalsIgnoreCase("Manto Relâmpago Supremo")) {
-                    buscarInimigo("A (Raikage)").setAtaqueEspecial2(ataque);
+                if (ataque.getNome().equalsIgnoreCase("Manto Relâmpago Supremo")) {
+                    Inimigo a = buscarInimigo("A (Raikage)");
+                    if (a != null) a.setAtaqueEspecial2(ataque);
                 }
-                if (ataqueChakra.getNome().equalsIgnoreCase("Pantera Negra Raiton")) {
-                    buscarInimigo("Darui").setAtaqueEspecial1(ataque);
+                if (ataque.getNome().equalsIgnoreCase("Pantera Negra Raiton")) {
+                    Inimigo d = buscarInimigo("Darui");
+                    if (d != null) d.setAtaqueEspecial1(ataque);
                 }
-                if (ataqueChakra.getNome().equalsIgnoreCase("Névoa Silenciosa")) {
-                    buscarInimigo("Zabuza Momochi").setAtaqueEspecial1(ataque);
+                if (ataque.getNome().equalsIgnoreCase("Névoa Silenciosa")) {
+                    Inimigo z = buscarInimigo("Zabuza Momochi");
+                    if (z != null) z.setAtaqueEspecial1(ataque);
                 }
-                if (ataqueChakra.getNome().equalsIgnoreCase("Execução Oculta na Névoa")) {
-                    buscarInimigo("Zabuza Momochi").setAtaqueEspecial2(ataque);
+                if (ataque.getNome().equalsIgnoreCase("Execução Oculta na Névoa")) {
+                    Inimigo z = buscarInimigo("Zabuza Momochi");
+                    if (z != null) z.setAtaqueEspecial2(ataque);
                 }
-                if (ataqueChakra.getNome().equalsIgnoreCase("Espelhos de Gelo e Senbons")) {
-                    buscarInimigo("Haku").setAtaqueEspecial1(ataque);
+                if (ataque.getNome().equalsIgnoreCase("Espelhos de Gelo e Senbons")) {
+                    Inimigo h = buscarInimigo("Haku");
+                    if (h != null) h.setAtaqueEspecial1(ataque);
                 }
-                if (ataqueChakra.getNome().equalsIgnoreCase("Dança de Papel Cortante")) {
-                    buscarInimigo("Konan").setAtaqueEspecial1(ataque);
+                if (ataque.getNome().equalsIgnoreCase("Dança de Papel Cortante")) {
+                    Inimigo k = buscarInimigo("Konan");
+                    if (k != null) k.setAtaqueEspecial1(ataque);
                 }
-                if (ataqueChakra.getNome().equalsIgnoreCase("Shinra Tensei")) {
-                    buscarInimigo("Pain (Tendo)").setAtaqueEspecial1(ataque);
+                if (ataque.getNome().equalsIgnoreCase("Shinra Tensei")) {
+                    Inimigo p = buscarInimigo("Pain (Tendo)");
+                    if (p != null) p.setAtaqueEspecial1(ataque);
                 }
-                if (ataqueChakra.getNome().equalsIgnoreCase("Chibaku Tensei")) {
-                    buscarInimigo("Pain (Tendo)").setAtaqueEspecial2(ataque);
+                if (ataque.getNome().equalsIgnoreCase("Chibaku Tensei")) {
+                    Inimigo p = buscarInimigo("Pain (Tendo)");
+                    if (p != null) p.setAtaqueEspecial2(ataque);
                 }
             }
         }
     }
+
 
     private static Inimigo buscarInimigo(String nome) {
         for (Inimigo inimigo : listaInimigos) {

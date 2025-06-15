@@ -31,4 +31,12 @@ public class Armadura extends Item {
     public void setDefesaArmadura(double defesaArmadura) {
         this.defesaArmadura = defesaArmadura;
     }
+
+    public int getSpawn() {
+        return spawn;
+    }
+
+    public void setSpawn(int spawn) {
+        this.spawn = spawn;
+    }
 }

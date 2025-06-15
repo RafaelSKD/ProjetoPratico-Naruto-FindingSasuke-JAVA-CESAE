@@ -19,14 +19,14 @@ public class InicializarArmaduras {
         // Armaduras para o Naruto encontrar
 
         // ░░░ ARMADURAS DE CIMA ░░░
-        Armadura cima1 = new Armadura("Casaco do Sábio", TipoItem.ARMADURA, TipoArmadura.CIMA, 60.0, 1);
-        Armadura cima2 = new Armadura("Manto Reforçado de Konoha", TipoItem.ARMADURA, TipoArmadura.CIMA, 45.0, 5);
-        Armadura cima3 = new Armadura("Jaqueta de Treinamento Chunin", TipoItem.ARMADURA, TipoArmadura.CIMA, 30.0, 9);
+        Armadura cima1 = new Armadura("Casaco do Sábio", TipoItem.ARMADURA, TipoArmadura.CIMA, 60.0, 0);
+        Armadura cima2 = new Armadura("Manto Reforçado de Konoha", TipoItem.ARMADURA, TipoArmadura.CIMA, 45.0, 0);
+        Armadura cima3 = new Armadura("Jaqueta de Treinamento Chunin", TipoItem.ARMADURA, TipoArmadura.CIMA, 30.0, 0);
 
         // ░░░ ARMADURAS DE BAIXO ░░░
-        Armadura baixo1 = new Armadura("Calças do Sábio dos Seis Caminhos", TipoItem.ARMADURA, TipoArmadura.BAIXO, 50.0, 1);
-        Armadura baixo2 = new Armadura("Calças da Anbu", TipoItem.ARMADURA, TipoArmadura.BAIXO, 35.0, 6);
-        Armadura baixo3 = new Armadura("Calças de Campo Ninja", TipoItem.ARMADURA, TipoArmadura.BAIXO, 25.0, 9);
+        Armadura baixo1 = new Armadura("Calças do Sábio dos Seis Caminhos", TipoItem.ARMADURA, TipoArmadura.BAIXO, 50.0, 0);
+        Armadura baixo2 = new Armadura("Calças da Anbu", TipoItem.ARMADURA, TipoArmadura.BAIXO, 35.0, 0);
+        Armadura baixo3 = new Armadura("Calças de Campo Ninja", TipoItem.ARMADURA, TipoArmadura.BAIXO, 25.0, 0);
 
         // Adicionar todas à lista
         armaduras.add(armaduraSasukeCima);

@@ -1,10 +1,23 @@
 package Jogo.Menus;
 
+import Itens.Armas.Arma;
+import Itens.Consumiveis.Consumivel;
+import Itens.Especial.Especial;
+import Itens.Item;
+import Jogo.Jogo;
+
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
 import java.util.Scanner;
 
-import static Jogo.Menus.Utils.headerKonoha;
-import static Jogo.Menus.Utils.headerNavegacao;
+import static Jogo.Menus.Cama.cama;
+import static Jogo.Menus.Hospital.hospitalNinja;
+import static Jogo.Menus.Loja.lojaArmas;
+import static Jogo.Menus.Loja.lojaMenu;
+import static Jogo.Menus.Luta.colocarEspacos;
+import static Jogo.Menus.Restaurante.restaurante;
+import static Jogo.Menus.Treino.treino;
+import static Jogo.Menus.Utils.*;
 import static Jogo.Paginas.Manual.manual;
 import static Utils.Utils.cleanConsole;
 import static Utils.Utils.imprimirFicheiro;
@@ -31,24 +44,31 @@ public class Konoha {
                 manual();
                 return 0;
             case 1:
-                System.out.println("Você está na sua casa, aproveite para descansar e se preparar para a jornada!");
+                cama();
                 sleep(2000);
                 return 0;
             case 2:
-                System.out.println("Você está no local de treino, onde pode aprimorar suas habilidades ninja!");
+                treino();
                 sleep(2000);
                 return 0;
             case 3:
-                System.out.println("Você está no Ichiraku Ramen, desfrutando de um delicioso ramen!");
+                cleanConsole();
+                imprimirFicheiro("src/imagens/restaurante.txt");
                 sleep(2000);
+                cleanConsole();
+                restaurante();
                 return 0;
             case 4:
-                System.out.println("Você está na loja, onde pode comprar itens e equipamentos!");
-                sleep(2000);
+                cleanConsole();
+                imprimirFicheiro("src/imagens/Loja.txt");
+                sleep(1500);
+                lojaArmas();
                 return 0;
             case 5:
-                System.out.println("Você está no hospital ninja, onde pode se curar e tratar ferimentos!");
+                cleanConsole();
+                imprimirFicheiro("src/imagens/hospital.txt");
                 sleep(2000);
+                hospitalNinja();
                 return 0;
             case 6:
                 //System.out.println("Você decidiu continuar sua jornada, boa sorte!");
@@ -59,6 +79,7 @@ public class Konoha {
         }
         return 0;
     }
+
     private static int menuKonoha() throws InterruptedException {
         Scanner input = new Scanner(System.in);
         int opcao;

@@ -16,7 +16,7 @@ public class Naruto extends Ninja {
     private Especial especial; // pode ter um item que aumenta algo fixo
     private Armadura cima; // pode ter uma armadura vestivel
     private Armadura baixo; // pode ter uma armadura vestivel
-    private ArrayList<Consumivel> bolsa; // conjunto de consumiveis
+    private ArrayList<Consumivel> bolsa = new ArrayList<Consumivel>(); // conjunto de consumiveis
     private AtaqueChakra ataqueEspecial1;
     private AtaqueChakra ataqueEspecial2;
     private double dinheiro;  // dinheiro que tem e pode ser roubado

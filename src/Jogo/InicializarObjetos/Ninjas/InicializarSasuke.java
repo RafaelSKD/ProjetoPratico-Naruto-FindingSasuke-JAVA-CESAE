@@ -8,10 +8,10 @@ public class InicializarSasuke {
         Sasuke sasuke = new Sasuke(
                 "Sasuke Uchiha",
                 Afinidade.RELAMPAGO,
-                950.0,  // chakra
-                340.0,  // defesa
-                420.0,  // ataque
-                880.0  // vida
+                1000.0,  // chakra
+                500.0,  // defesa
+                500.0,  // ataque
+                1500.0  // vida
         );
         return sasuke;
     }
