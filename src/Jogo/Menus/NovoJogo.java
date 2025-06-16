@@ -1,5 +1,5 @@
 package Jogo.Menus;
-
+import Utils.Som;
 import java.util.Scanner;
 
 import static Jogo.Menus.Utils.headerNovoJogo;
@@ -10,7 +10,6 @@ public class NovoJogo {
     public static int menuNovoJogo() throws InterruptedException {
         Scanner input = new Scanner(System.in);
         int opcao = -1;
-
         while (true) {
             cleanConsole();
             headerNovoJogo();

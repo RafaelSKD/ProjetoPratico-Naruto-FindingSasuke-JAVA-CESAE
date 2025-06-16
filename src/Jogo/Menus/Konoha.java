@@ -1,27 +1,20 @@
 package Jogo.Menus;
 
-import Itens.Armas.Arma;
-import Itens.Consumiveis.Consumivel;
-import Itens.Especial.Especial;
-import Itens.Item;
-import Jogo.Jogo;
-
 import java.io.FileNotFoundException;
-import java.util.ArrayList;
 import java.util.Scanner;
 
 import static Jogo.Menus.Cama.cama;
 import static Jogo.Menus.Hospital.hospitalNinja;
 import static Jogo.Menus.Loja.lojaArmas;
-import static Jogo.Menus.Loja.lojaMenu;
-import static Jogo.Menus.Luta.colocarEspacos;
+import static Jogo.Menus.Manual.manual;
 import static Jogo.Menus.Restaurante.restaurante;
 import static Jogo.Menus.Treino.treino;
-import static Jogo.Menus.Utils.*;
-import static Jogo.Paginas.Manual.manual;
+import static Jogo.Menus.Utils.headerKonoha;
+import static Utils.Som.*;
 import static Utils.Utils.cleanConsole;
 import static Utils.Utils.imprimirFicheiro;
 import static java.lang.Thread.sleep;
+import Utils.Som;
 
 public class Konoha {
     public static void main(String[] args) throws FileNotFoundException, InterruptedException {
@@ -32,8 +25,12 @@ public class Konoha {
         int flag = 0;
         while (true) {
             flag = dispacher(menuKonoha());
-            if (flag == 1)
+            if (flag == 1){
+                stopKonoha();
+                playNav();
                 break;
+            }
+
         }
     }
 

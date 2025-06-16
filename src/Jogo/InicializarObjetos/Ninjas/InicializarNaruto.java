@@ -10,7 +10,7 @@ public class InicializarNaruto {
                 Afinidade.VENTO,
                 600.0, // chakra
                 200.0,  // defesa
-                430.0,  // ataque
+                4300.0,  // ataque
                 1000.0,  // vida
                 2500 // dinheiro
         );

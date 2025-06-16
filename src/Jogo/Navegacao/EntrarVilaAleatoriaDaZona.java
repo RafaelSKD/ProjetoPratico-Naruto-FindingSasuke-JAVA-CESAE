@@ -22,19 +22,25 @@ import java.util.Scanner;
 import static Jogo.Menus.Luta.menuLuta;
 import static Jogo.Menus.Luta.menuLutaFinal;
 import static Jogo.Menus.Utils.getSpaces;
+import static Utils.Som.playSasuke;
+import static Utils.Som.stopFight;
 import static Utils.Utils.*;
 import static java.lang.Thread.sleep;
 
 public class EntrarVilaAleatoriaDaZona {
 
     public static void entrarNaVila(Localizacao localizacao) throws FileNotFoundException, InterruptedException {
-        Vila vilaAleatoria = vilaAleatoria(localizacao);
-        Ninja ninja = ninjaEncontrado(vilaAleatoria);
-
-        if (ninja == null) {
+        Vila vilaAleatoria = vilaAleatoriaComNinjas(localizacao);
+        if (vilaAleatoria == null) {
             cleanConsole();
             imprimirFicheiro("src/imagens/NoNinjas.txt");
-            sleep(1000);
+            stop();
+            return;
+        }
+
+        Ninja ninja = ninjaEncontrado(vilaAleatoria);
+        if (ninja == null) {
+            entrarNaVila(localizacao);
             return;
         }
 
@@ -47,13 +53,18 @@ public class EntrarVilaAleatoriaDaZona {
         return listaNinjasPossiveis.get(random(listaNinjasPossiveis.size()));
     }
 
-    private static Vila vilaAleatoria(Localizacao localizacao) {
+    private static Vila vilaAleatoriaComNinjas(Localizacao localizacao) {
         ArrayList<Vila> vilas = Jogo.getListaVilas();
         ArrayList<Vila> vilasPossiveis = new ArrayList<>();
 
         for (Vila vila : vilas) {
-            if (vila.getLocalizacao() == localizacao)
+            if (vila.getLocalizacao() == localizacao && !vila.getListaNinjas().isEmpty()) {
                 vilasPossiveis.add(vila);
+            }
+        }
+
+        if (vilasPossiveis.isEmpty()) {
+            return null;
         }
 
         return vilasPossiveis.get(random(vilasPossiveis.size()));
@@ -75,20 +86,18 @@ public class EntrarVilaAleatoriaDaZona {
                 Arma arma = (Arma) item;
                 if (naruto.getArma() == null) {
                     naruto.setArma(arma);
-                    // print inalterado
-                    System.out.println("                                                                             \uD83E\uDEF4\uD83C\uDFFC\uD83C\uDF81");
+                    System.out.println("                                                                             🎴🎁");
                     System.out.println("                                                " + amigo.getNome() + " e um aliado e cedeu te a arma " + arma.getNome() + "!!!");
-                    System.out.println("                                                                              ⚔\uFE0F");
+                    System.out.println("                                                                              ⚔️");
                     System.out.println("                                                " + arma.getNome() + " equipada com sucesso!");
-                    System.out.println("                                                                        ⚔\uFE0E⛊STATS  ⚔\uFE0E⛊");
+                    System.out.println("                                                                        ⚔️⛊STATS  ⚔️⛊");
                     System.out.println("                                                Arma da mais " + arma.getAtaqueArma() + " de ataque");
-                    sleep(3000);
+                    stop();
                     return;
                 } else {
                     Arma arma1 = naruto.getArma();
-                    // print inalterado
                     System.out.println("                                                  " + amigo.getNome() + " e um aliado e cedeu te a arma " + arma.getNome() + "!!!\n\n");
-                    System.out.println("                               " + "Arma Equipada                                            Arma Nova         \n");
+                    System.out.println("                               Arma Equipada                                            Arma Nova         \n");
                     System.out.println("                               ░░░░░░ Nome ░░░░░░ :  " + arma1.getNome() + getSpaces(arma1.getNome()) + "░░░░░░ Nome ░░░░░░ :  " + arma.getNome());
                     System.out.println("                               ░░ Ataque Extra ░░ :  " + arma1.getAtaqueArma() + getSpaces(String.valueOf(arma1.getAtaqueArma())) + "░░ Ataque Extra ░░ :  " + arma.getAtaqueArma());
                     System.out.println("                               ░░░░░░ Tipo ░░░░░░ :  " + arma1.getTipo() + getSpaces(arma1.getTipo().name()) + "░░░░░░ Tipo ░░░░░░ :  " + arma.getTipo());
@@ -102,13 +111,13 @@ public class EntrarVilaAleatoriaDaZona {
                     if (opcao == 'n' || opcao == 'N') {
                         vila.morto(ninja);
                         System.out.println("                                                        Arma nao equipada !!!  ");
-                        sleep(3000);
+                        stop();
                         return;
                     } else {
                         naruto.setArma(arma);
                         System.out.println("                                                         " + arma.getNome() + " equipada com sucesso!");
                         vila.morto(ninja);
-                        sleep(3000);
+                        stop();
                         return;
                     }
                 }
@@ -120,20 +129,18 @@ public class EntrarVilaAleatoriaDaZona {
                     Armadura armaduraCima = armadura;
                     if (naruto.getCima() == null) {
                         naruto.setCima(armaduraCima);
-                        // print inalterado
-                        System.out.println("                                                                             \uD83E\uDEF4\uD83C\uDFFC\uD83C\uDF81");
+                        System.out.println("                                                                             🎴🎁");
                         System.out.println("                                                " + amigo.getNome() + " e um aliado e cedeu te a armadura " + armadura.getNome() + "!!!");
-                        System.out.println("                                                                              ⚔\uFE0F");
+                        System.out.println("                                                                              ⚔️");
                         System.out.println("                                                " + armadura.getNome() + " equipada com sucesso!");
-                        System.out.println("                                                                        ⚔\uFE0E⛊STATS  ⚔\uFE0E⛊");
+                        System.out.println("                                                                        ⚔️⛊STATS  ⚔️⛊");
                         System.out.println("                                                Armadura da mais " + armadura.getDefesaArmadura() + " de defesa");
-                        sleep(3000);
+                        stop();
                         return;
                     } else {
                         Armadura armadura1 = naruto.getCima();
-                        // print inalterado
                         System.out.println("                                                  " + amigo.getNome() + " e um aliado e cedeu te a armadura " + armadura.getNome() + "!!!\n\n");
-                        System.out.println("                               " + "Armadura Equipada                                        Armadura Nova         \n");
+                        System.out.println("                               Armadura Equipada                                        Armadura Nova         \n");
                         System.out.println("                               ░░░░░░ Nome ░░░░░░ :  " + armadura1.getNome() + getSpaces(armadura1.getNome()) + "░░░░░░ Nome ░░░░░░ :  " + armaduraCima.getNome());
                         System.out.println("                               ░░ Defesa Extra ░░ :  " + armadura1.getDefesaArmadura() + getSpaces(String.valueOf(armadura1.getDefesaArmadura())) + "░░ Defesa Extra ░░ :  " + armaduraCima.getDefesaArmadura());
                         System.out.println("\n\n");
@@ -145,13 +152,13 @@ public class EntrarVilaAleatoriaDaZona {
                         if (opcao == 'n' || opcao == 'N') {
                             vila.morto(ninja);
                             System.out.println("                                                        Armadura nao equipada !!!  ");
-                            sleep(3000);
+                            stop();
                             return;
                         } else {
                             naruto.setCima(armaduraCima);
                             System.out.println("                                                         " + armaduraCima.getNome() + " equipada com sucesso!");
                             vila.morto(ninja);
-                            sleep(3000);
+                            stop();
                             return;
                         }
                     }
@@ -161,20 +168,18 @@ public class EntrarVilaAleatoriaDaZona {
                     Armadura armaduraBaixo = armadura;
                     if (naruto.getBaixo() == null) {
                         naruto.setBaixo(armaduraBaixo);
-                        // print inalterado
-                        System.out.println("                                                                             \uD83E\uDEF4\uD83C\uDFFC\uD83C\uDF81");
+                        System.out.println("                                                                             🎴🎁");
                         System.out.println("                                                " + amigo.getNome() + " e um aliado e cedeu te a armadura " + armadura.getNome() + "!!!");
-                        System.out.println("                                                                              ⚔\uFE0F");
+                        System.out.println("                                                                              ⚔️");
                         System.out.println("                                                " + armadura.getNome() + " equipada com sucesso!");
-                        System.out.println("                                                                        ⚔\uFE0E⛊STATS  ⚔\uFE0E⛊");
+                        System.out.println("                                                                        ⚔️⛊STATS  ⚔️⛊");
                         System.out.println("                                                Armadura da mais " + armadura.getDefesaArmadura() + " de defesa");
-                        sleep(3000);
+                        stop();
                         return;
                     } else {
                         Armadura armadura1 = naruto.getBaixo();
-                        // print inalterado
                         System.out.println("                                                  " + amigo.getNome() + " e um aliado e cedeu te a armadura " + armadura.getNome() + "!!!\n\n");
-                        System.out.println("                               " + "Armadura Equipada                                        Armadura Nova         \n");
+                        System.out.println("                               Armadura Equipada                                        Armadura Nova         \n");
                         System.out.println("                               ░░░░░░ Nome ░░░░░░ :  " + armadura1.getNome() + getSpaces(armadura1.getNome()) + "░░░░░░ Nome ░░░░░░ :  " + armaduraBaixo.getNome());
                         System.out.println("                               ░░ Defesa Extra ░░ :  " + armadura1.getDefesaArmadura() + getSpaces(String.valueOf(armadura1.getDefesaArmadura())) + "░░ Defesa Extra ░░ :  " + armaduraBaixo.getDefesaArmadura());
                         System.out.println("\n\n");
@@ -186,13 +191,13 @@ public class EntrarVilaAleatoriaDaZona {
                         if (opcao == 'n' || opcao == 'N') {
                             vila.morto(ninja);
                             System.out.println("                                                        Armadura nao equipada !!!  ");
-                            sleep(3000);
+                            stop();
                             return;
                         } else {
                             naruto.setBaixo(armaduraBaixo);
                             System.out.println("                                                         " + armaduraBaixo.getNome() + " equipada com sucesso!");
                             vila.morto(ninja);
-                            sleep(3000);
+                            stop();
                             return;
                         }
                     }
@@ -202,10 +207,9 @@ public class EntrarVilaAleatoriaDaZona {
             if (item instanceof Consumivel) {
                 Consumivel consumivel = (Consumivel) item;
                 naruto.addConsumivel(consumivel);
-                System.out.println("                                               " + consumivel.getNome() + "adicionado com sucesso a bolsa de itens \uD83C\uDF92 ✅");
-                sleep(600);
+                System.out.println("                                               " + consumivel.getNome() + " adicionado com sucesso a bolsa de itens 🎒 ✅");
                 vila.morto(ninja);
-                sleep(3000);
+                stop();
                 return;
             }
 
@@ -213,16 +217,14 @@ public class EntrarVilaAleatoriaDaZona {
                 Especial especial = (Especial) item;
                 if (naruto.getEspecial() == null) {
                     naruto.setEspecial(especial);
-                    System.out.println("                                               " + especial.getNome() + "adicionado com sucesso a slot especial \uD83C\uDF1F ✅");
-                    sleep(600);
+                    System.out.println("                                               " + especial.getNome() + " adicionado com sucesso a slot especial 🌟 ✅");
                     vila.morto(ninja);
-                    sleep(3000);
+                    stop();
                     return;
                 } else {
                     Especial especial1 = naruto.getEspecial();
-                    // print inalterado
                     System.out.println("                                                  " + amigo.getNome() + " e um aliado e cedeu te um item especial " + especial.getNome() + "!!!\n\n");
-                    System.out.println("                               " + "Especial Equipado                                        Especial Novo         \n");
+                    System.out.println("                               Especial Equipado                                        Especial Novo         \n");
                     System.out.println("                               ░░░░░░ Nome ░░░░░░ :  " + especial1.getNome() + getSpaces(especial1.getNome()) + "░░░░░░ Nome ░░░░░░ :  " + especial.getNome());
                     System.out.println("                               ░░░░░░ Tipo ░░░░░░ :  " + especial1.getTipo() + getSpaces(especial1.getTipo().name()) + "░░░░░░ Tipo ░░░░░░ :  " + especial.getTipo());
                     System.out.println("                               ░ Forca do Efeito░ :  " + especial1.getEfeito() + getSpaces(String.valueOf(especial1.getEfeito())) + "░ Forca do Efeito░ :  " + especial.getEfeito());
@@ -235,13 +237,13 @@ public class EntrarVilaAleatoriaDaZona {
                     if (opcao == 'n' || opcao == 'N') {
                         vila.morto(ninja);
                         System.out.println("                                                        Especial nao equipado !!!  ");
-                        sleep(3000);
+                        stop();
                         return;
                     } else {
                         naruto.setEspecial(especial);
                         System.out.println("                                                         " + especial.getNome() + " equipado com sucesso!");
                         vila.morto(ninja);
-                        sleep(3000);
+                        stop();
                         return;
                     }
                 }
@@ -264,6 +266,8 @@ public class EntrarVilaAleatoriaDaZona {
         }
 
         if (ninja instanceof Sasuke) {
+            stopFight();
+            playSasuke();
             int flag = 0;
             if (naruto.getEspecial() != null){
                 aplicarEfeitosEspecial();
@@ -293,7 +297,6 @@ public class EntrarVilaAleatoriaDaZona {
             naruto.setVida(naruto.getVida() + especial.getEfeito());
         if (especial.isChakra())
             naruto.setChakra(naruto.getChakra() + especial.getEfeito());
-
     }
 
     private static void retirarEfeitosEspecial(){
@@ -308,6 +311,5 @@ public class EntrarVilaAleatoriaDaZona {
             naruto.setVida(naruto.getVida() - especial.getEfeito());
         if (especial.isChakra())
             naruto.setChakra(naruto.getChakra() - especial.getEfeito());
-
     }
 }

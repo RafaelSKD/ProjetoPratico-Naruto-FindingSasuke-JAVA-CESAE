@@ -12,9 +12,9 @@ import java.util.Arrays;
 import java.util.Scanner;
 
 import static Jogo.Menus.Luta.colocarEspacos;
+import static Jogo.Menus.Manual.manual;
 import static Jogo.Menus.Utils.getSpaces;
 import static Jogo.Menus.Utils.headerTenTen;
-import static Jogo.Paginas.Manual.manual;
 import static Utils.Utils.cleanConsole;
 import static java.lang.Thread.sleep;
 

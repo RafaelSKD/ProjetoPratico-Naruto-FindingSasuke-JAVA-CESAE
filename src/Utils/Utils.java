@@ -9,10 +9,9 @@ public class Utils {
         Random rd = new Random();
         return rd.nextInt(quantidade);
     }
-    public static void stop(String src){
-        Scanner input = new Scanner(System.in);
-        System.out.print(src);       // Wait for user input to continue
-        input.next();
+    public static void stop(){
+        System.out.print("\n\nPressionar Enter para continuar...  ");       // Wait for user input to continue
+        new Scanner(System.in).nextLine();
     }
     public static void imprimirFicheiro(String src) throws FileNotFoundException {
         Scanner data = new Scanner(new File(src));

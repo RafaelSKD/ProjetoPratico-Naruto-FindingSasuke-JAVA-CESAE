@@ -4,7 +4,7 @@ import Itens.Armas.Arma;
 import Itens.AtaqueChakra.AtaqueChakra;
 import Itens.Consumiveis.Consumivel;
 import Itens.Enum.HabilidadeArma;
-import Itens.Enum.TipoConsumivel;
+import Utils.Som;
 import Itens.Enum.TipoItem;
 import Jogo.Jogo;
 import Mapa.Vila;
@@ -18,7 +18,8 @@ import Ninjas.Ninja;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
 
-import static Jogo.Paginas.Manual.manual;
+import static Jogo.Menus.Manual.manual;
+import static Utils.Som.*;
 import static Utils.Utils.*;
 import static java.lang.Thread.sleep;
 
@@ -128,9 +129,31 @@ public class Luta {
         while ((Jogo.getNaruto()).getVida() > 0 && inimigo.getVida() > 0){
             cleanConsole();
             int option = layoutMenuLuta(inimigo);
-            flag = dispacher(option, inimigo, flag);
+            if (option != 1)
+                flag = dispacher(option, inimigo, flag);
+            if (option == 1){
+                int ramdom = random(2);
+                if (ramdom == 0){
+                    System.out.println("\n\n                                                                                  Covarde!\n");
+                    sleep(1500);
+                    break;
+                }
+                if (ramdom == 1){
+                    System.out.println("\n\n                                                                                  Oh nao!, Tentativa de Fugir falhada\n");
+                    sleep(1500);
+                    boolean inimigoAtacou = false;
+                    while (!inimigoAtacou){
+                        cleanConsole();
+                        menuInimigo(inimigo);
+                        sleep(1500);
+                        inimigoAtacou = defesa(inimigo);
+                    }
+                }
+            }
         }
         if ((Jogo.getNaruto()).getVida() <= 0){
+            stopFight();
+            playLose();
             cleanConsole();
             imprimirFicheiro("src/imagens/NarutoDie.txt");
             sleep(2000);
@@ -146,6 +169,7 @@ public class Luta {
             sleep(2000);
             (Jogo.getNaruto()).setDinheiro((Jogo.getNaruto()).getDinheiro() + inimigo.getDinheiro());
             vila.morto(inimigo);
+            playNav();
         }
     }
 
@@ -155,27 +179,50 @@ public class Luta {
         while ((Jogo.getNaruto()).getVida() > 0 && sasuke.getVida() > 0){
             cleanConsole();
             int option = layoutMenuLutaFinal(sasuke);
-            flag = dispacherLutaFinal(option, sasuke, flag);
+            if (option != 1)
+                flag = dispacherLutaFinal(option, sasuke, flag);
+            if (option == 1){
+                int ramdom = random(2);
+                if (ramdom == 0){
+                    System.out.println("\n\n                                                                                  Covarde!\n");
+                    sleep(1500);
+                    break;
+                }
+                if (ramdom == 1){
+                    System.out.println("\n\n                                                                                  Oh nao!, Tentativa de Fugir falhada!!!\n");
+                    sleep(1500);
+                    boolean inimigoAtacou = false;
+                    while (!inimigoAtacou){
+                        cleanConsole();
+                        menuInimigoFinal(sasuke);
+                        sleep(1500);
+                        inimigoAtacou = defesaFinal(sasuke);
+                    }
+                }
+            }
         }
         if ((Jogo.getNaruto()).getVida() <= 0){
+            stopSasuke();
+            playLose();
             cleanConsole();
             imprimirFicheiro("src/imagens/NarutoDie.txt");
-            sleep(2000);
+            sleep(4000);
             cleanConsole();
             imprimirFicheiro("src/imagens/gameOver.txt");
-            sleep(4000);
+            sleep(6000);
             return;
         }
         if (sasuke.getVida() <= 0){
+            playWin();
             cleanConsole();
             imprimirFicheiro("src/imagens/sasukelose.txt");
             sleep(2000);
             cleanConsole();
-            imprimirFicheiro("src/imagens/narutowin.txt");
-            sleep(2000);
+            imprimirFicheiro("src/imagens/NarutoWin.txt");
+            sleep(4000);
             cleanConsole();
             imprimirFicheiro("src/imagens/wingame.txt");
-            sleep(2000);
+            sleep(6000);
         }
     }
 
@@ -189,7 +236,7 @@ public class Luta {
                 break;
             case 1:
                 cleanConsole();
-                narutoAgiu = ataque(inimigo, "normal") != 0;
+                narutoAgiu = true;
                 break;
             case 2:
                 cleanConsole();
@@ -215,12 +262,15 @@ public class Luta {
 
         if (narutoAgiu && inimigo.getVida() > 0) {
             boolean inimigoAtacou = false;
-            do{
+            if (opcao == 1){
+                inimigoAtacou = true; // para poder fugir sem ser atacado
+            }
+            while (!inimigoAtacou){
                 cleanConsole();
                 menuInimigo(inimigo);
                 sleep(1500);
                 inimigoAtacou = defesa(inimigo);
-            } while (!inimigoAtacou);
+            }
         }
 
         return 0;
@@ -276,7 +326,7 @@ public class Luta {
                 break;
             case 1:
                 cleanConsole();
-                narutoAgiu = ataqueFinal(inimigo, "normal") != 0;
+                narutoAgiu = true;
                 break;
             case 2:
                 cleanConsole();
@@ -302,12 +352,15 @@ public class Luta {
 
         if (narutoAgiu && inimigo.getVida() > 0) {
             boolean inimigoAtacou = false;
-            do{
+            if (opcao == 1){
+                inimigoAtacou = true; // para poder fugir sem ser atacado
+            }
+            while (!inimigoAtacou){
                 cleanConsole();
                 menuInimigoFinal(inimigo);
                 sleep(1500);
                 inimigoAtacou = defesaFinal(inimigo);
-            } while (!inimigoAtacou);
+            }
         }
 
         return 0;
@@ -342,14 +395,14 @@ public class Luta {
                     dano = Math.max(0, dano);
                     Jogo.getNaruto().setVida(Jogo.getNaruto().getVida() - dano);
                     cleanConsole();
+                    playHit();
                     imprimirFicheiro("src/imagens/ataque.txt");
                     System.out.println(inimigo.getNome() + " atacou você com a arma " + getNomeArmaOuNenhuma(inimigo) + "!");
                     System.out.println("Você recebeu " + dano + " de dano.");
                     sleep(2000);
+                    stopHit();
                     return true;
                 } else {
-                    System.out.println(inimigo.getNome() + " não tem uma arma equipada!");
-                    sleep(2000);
                     return false;
                 }
 
@@ -364,13 +417,13 @@ public class Luta {
                     dano = Math.max(0, dano);
                     Jogo.getNaruto().setVida(Jogo.getNaruto().getVida() - dano);
                     cleanConsole();
+                    playHit();
                     imprimirFicheiro("src/imagens/ataque.txt");
                     System.out.println("Você recebeu " + dano + " de dano.");
                     sleep(2000);
+                    stopHit();
                     return true;
                 } else {
-                    System.out.println(inimigo.getNome() + " não tem um ataque especial equipado!");
-                    sleep(2000);
                     return false;
                 }
 
@@ -384,14 +437,14 @@ public class Luta {
                         dano *= 1.2;
                     dano = Math.max(0, dano);
                     Jogo.getNaruto().setVida(Jogo.getNaruto().getVida() - dano);
+                    playHit();
                     cleanConsole();
                     imprimirFicheiro("src/imagens/ataque.txt");
                     System.out.println("Você recebeu " + dano + " de dano.");
                     sleep(2000);
+                    stopHit();
                     return true;
                 } else {
-                    System.out.println(inimigo.getNome() + " não tem um ataque especial equipado!");
-                    sleep(2000);
                     return false;
                 }
         }
@@ -410,10 +463,12 @@ public class Luta {
                 dano = Math.max(0, dano);
                 Jogo.getNaruto().setVida(Jogo.getNaruto().getVida() - dano);
                 cleanConsole();
+                playHit();
                 imprimirFicheiro("src/imagens/ataque.txt");
                 System.out.println(inimigo.getNome() + " atacou você com um ataque normal!");
                 System.out.println("Você recebeu " + dano + " de dano.");
                 sleep(2000);
+                stopHit();
                 return true;
 
             case 1:
@@ -424,15 +479,15 @@ public class Luta {
                     dano *= 1.2;
                     dano = Math.max(0, dano);
                     Jogo.getNaruto().setVida(Jogo.getNaruto().getVida() - dano);
+                    playHit();
                     cleanConsole();
                     imprimirFicheiro("src/imagens/ataque.txt");
                     System.out.println(inimigo.getNome() + " atacou você com a arma " + getNomeArmaOuNenhuma(inimigo) + "!");
                     System.out.println("Você recebeu " + dano + " de dano.");
                     sleep(2000);
+                    stopHit();
                     return true;
                 } else {
-                    System.out.println(inimigo.getNome() + " não tem uma arma equipada!");
-                    sleep(2000);
                     return false;
                 }
 
@@ -448,11 +503,11 @@ public class Luta {
                     cleanConsole();
                     imprimirFicheiro("src/imagens/ataque.txt");
                     System.out.println("Você recebeu " + dano + " de dano.");
+                    playHit();
                     sleep(2000);
+                    stopHit();
                     return true;
                 } else {
-                    System.out.println(inimigo.getNome() + " não tem um ataque especial equipado!");
-                    sleep(2000);
                     return false;
                 }
 
@@ -468,11 +523,11 @@ public class Luta {
                     cleanConsole();
                     imprimirFicheiro("src/imagens/ataque.txt");
                     System.out.println("Você recebeu " + dano + " de dano.");
+                    playHit();
                     sleep(2000);
+                    stopHit();
                     return true;
                 } else {
-                    System.out.println(inimigo.getNome() + " não tem um ataque especial equipado!");
-                    sleep(2000);
                     return false;
                 }
         }
@@ -495,8 +550,6 @@ public class Luta {
             case "arma":
                 Arma arma = naruto.getArma();
                 if (arma == null) {
-                    System.out.println("Você não tem uma arma equipada!");
-                    sleep(2000);
                     return 0;
                 }
                 dano = ataqueBase + arma.getAtaqueArma() - inimigo.getDefesa();
@@ -533,11 +586,11 @@ public class Luta {
         // Evita dano negativo (cura)
         dano = Math.max(0, dano);
         inimigo.setVida(inimigo.getVida() - dano);
-
         imprimirFicheiro("src/imagens/ataque.txt");
         System.out.printf("Você atacou %s com %s causando %.1f de dano.%n", inimigo.getNome(), descricaoAtaque, dano);
+        playDattebayo();
         sleep(2000);
-
+        stopDattebayo();
         return 1;
     }
 
@@ -556,8 +609,6 @@ public class Luta {
             case "arma":
                 Arma arma = naruto.getArma();
                 if (arma == null) {
-                    System.out.println("Você não tem uma arma equipada!");
-                    sleep(2000);
                     return 0;
                 }
                 dano = ataqueBase + arma.getAtaqueArma() - calcularDefesaSasuke(inimigo);
@@ -589,10 +640,11 @@ public class Luta {
         // Garante que o dano mínimo seja 0 (não cura o inimigo)
         dano = Math.max(0, dano);
         inimigo.setVida(inimigo.getVida() - dano);
-
         imprimirFicheiro("src/imagens/ataque.txt");
         System.out.printf("Você atacou %s com %s causando %.1f de dano.%n", inimigo.getNome(), descricaoAtaque, dano);
+        playDattebayo();
         sleep(2000);
+        stopDattebayo();
         return 1;
     }
 
@@ -672,9 +724,9 @@ public class Luta {
             System.out.println("         ██ ▒ ▒  ████▒ ▒█▒██ ▒▒          ▒  ░  ░▒▓▓▒   ▒▓          ::::::::::::::::::::::::::::::::::::::::::::::::::: MENU DE COMBATE ::::::::::::::::::::::::::::::::::::::::::::::::::");
             System.out.println("         ▒▓▓░    ░░    ░ ░░  ▒░        ░░   ░   ██▒░░ ▒▒                                                                            ");
             System.out.println("         ▒░▓▓ ░░       ░     ▓░      ▒░░     ▒ ░███▓░                                                                                         ");
-            System.out.println("         ░▒     ░           ▒▒   ▒▒▒░ ░       ░▓  ░▒                         Murro Ascendente -        PREMIR: 1" + colocarEspacos((((Jogo.getNaruto()).getAtaqueEspecial1()).getNome()).length(), 34) + ((Jogo.getNaruto()).getAtaqueEspecial1()).getNome() + "(" + ((Jogo.getNaruto()).getAtaqueEspecial1()).getChakraNecessario() + "\uD83D\uDCA0)-" + colocarEspacos(String.valueOf(((Jogo.getNaruto()).getAtaqueEspecial1()).getChakraNecessario()).length(), 12) + "PREMIR 4");
+            System.out.println("         ░▒     ░           ▒▒   ▒▒▒░ ░       ░▓  ░▒                         Fugir Amedrontado! -      PREMIR: 1" + colocarEspacos((((Jogo.getNaruto()).getAtaqueEspecial1()).getNome()).length(), 34) + ((Jogo.getNaruto()).getAtaqueEspecial1()).getNome() + "(" + ((Jogo.getNaruto()).getAtaqueEspecial1()).getChakraNecessario() + "\uD83D\uDCA0)-" + colocarEspacos(String.valueOf(((Jogo.getNaruto()).getAtaqueEspecial1()).getChakraNecessario()).length(), 12) + "PREMIR 4");
             System.out.println("         ░░▒░▒░    ▒▒▒▒▒▒░  ▒▒▒░   ░              ▒                                                                                 ");
-            System.out.println("           ▒▒░▒░   ░      ░░▒░░   ░             ░                            Varrimento de Perna -     PREMIR: 2" + colocarEspacos((((Jogo.getNaruto()).getAtaqueEspecial2()).getNome()).length(), 34) + ((Jogo.getNaruto()).getAtaqueEspecial2()).getNome() + "(" + ((Jogo.getNaruto()).getAtaqueEspecial2()).getChakraNecessario() + "\uD83D\uDCA0)-" + colocarEspacos(String.valueOf(((Jogo.getNaruto()).getAtaqueEspecial2()).getChakraNecessario()).length(), 12) + "PREMIR 5");
+            System.out.println("           ▒▒░▒░   ░      ░░▒░░   ░             ░                            Ataque normal -           PREMIR: 2" + colocarEspacos((((Jogo.getNaruto()).getAtaqueEspecial2()).getNome()).length(), 34) + ((Jogo.getNaruto()).getAtaqueEspecial2()).getNome() + "(" + ((Jogo.getNaruto()).getAtaqueEspecial2()).getChakraNecessario() + "\uD83D\uDCA0)-" + colocarEspacos(String.valueOf(((Jogo.getNaruto()).getAtaqueEspecial2()).getChakraNecessario()).length(), 12) + "PREMIR 5");
             System.out.println("            ▒░▒▒ ░▒     ▒▒ ░▒  ░ ░           ░▓                                                                                     ");
             System.out.println("          ▒  ░░ ░   ▒▒░ ░ ░▒   ░           ░▒░                               Atacar com Arma -         PREMIR: 3                         Mochila de Itens -        PREMIR 6");
             System.out.println("          ▒░▓▒▒░▓▒  ▒ ░ ░ ░░   ░         ▒ ░                                                                                        ");
@@ -734,9 +786,9 @@ public class Luta {
             System.out.println("         ██ ▒ ▒  ████▒ ▒█▒██ ▒▒          ▒  ░  ░▒▓▓▒   ▒▓          ::::::::::::::::::::::::::::::::::::::::::::::::::: MENU DE COMBATE ::::::::::::::::::::::::::::::::::::::::::::::::::");
             System.out.println("         ▒▓▓░    ░░    ░ ░░  ▒░        ░░   ░   ██▒░░ ▒▒                                                                            ");
             System.out.println("         ▒░▓▓ ░░       ░     ▓░      ▒░░     ▒ ░███▓░                                                                                         ");
-            System.out.println("         ░▒     ░           ▒▒   ▒▒▒░ ░       ░▓  ░▒                         Murro Ascendente -        PREMIR: 1" + colocarEspacos((((Jogo.getNaruto()).getAtaqueEspecial1()).getNome()).length(), 34) + ((Jogo.getNaruto()).getAtaqueEspecial1()).getNome() + "(" + ((Jogo.getNaruto()).getAtaqueEspecial1()).getChakraNecessario() + "\uD83D\uDCA0)-" + colocarEspacos(String.valueOf(((Jogo.getNaruto()).getAtaqueEspecial1()).getChakraNecessario()).length(), 12) + "PREMIR 4");
+            System.out.println("         ░▒     ░           ▒▒   ▒▒▒░ ░       ░▓  ░▒                         Fugir Amedrontado! -      PREMIR: 1" + colocarEspacos((((Jogo.getNaruto()).getAtaqueEspecial1()).getNome()).length(), 34) + ((Jogo.getNaruto()).getAtaqueEspecial1()).getNome() + "(" + ((Jogo.getNaruto()).getAtaqueEspecial1()).getChakraNecessario() + "\uD83D\uDCA0)-" + colocarEspacos(String.valueOf(((Jogo.getNaruto()).getAtaqueEspecial1()).getChakraNecessario()).length(), 12) + "PREMIR 4");
             System.out.println("         ░░▒░▒░    ▒▒▒▒▒▒░  ▒▒▒░   ░              ▒                                                                                 ");
-            System.out.println("           ▒▒░▒░   ░      ░░▒░░   ░             ░                            Varrimento de Perna -     PREMIR: 2" + colocarEspacos((((Jogo.getNaruto()).getAtaqueEspecial2()).getNome()).length(), 34) + ((Jogo.getNaruto()).getAtaqueEspecial2()).getNome() + "(" + ((Jogo.getNaruto()).getAtaqueEspecial2()).getChakraNecessario() + "\uD83D\uDCA0)-" + colocarEspacos(String.valueOf(((Jogo.getNaruto()).getAtaqueEspecial2()).getChakraNecessario()).length(), 12) + "PREMIR 5");
+            System.out.println("           ▒▒░▒░   ░      ░░▒░░   ░             ░                            Ataque normal -           PREMIR: 2" + colocarEspacos((((Jogo.getNaruto()).getAtaqueEspecial2()).getNome()).length(), 34) + ((Jogo.getNaruto()).getAtaqueEspecial2()).getNome() + "(" + ((Jogo.getNaruto()).getAtaqueEspecial2()).getChakraNecessario() + "\uD83D\uDCA0)-" + colocarEspacos(String.valueOf(((Jogo.getNaruto()).getAtaqueEspecial2()).getChakraNecessario()).length(), 12) + "PREMIR 5");
             System.out.println("            ▒░▒▒ ░▒     ▒▒ ░▒  ░ ░           ░▓                                                                                     ");
             System.out.println("          ▒  ░░ ░   ▒▒░ ░ ░▒   ░           ░▒░                               Atacar com Arma -         PREMIR: 3                         Mochila de Itens -        PREMIR 6");
             System.out.println("          ▒░▓▒▒░▓▒  ▒ ░ ░ ░░   ░         ▒ ░                                                                                        ");
