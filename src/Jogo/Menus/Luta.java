@@ -1,19 +1,10 @@
 package Jogo.Menus;
 
-import Itens.Armas.Arma;
-import Itens.AtaqueChakra.AtaqueChakra;
 import Itens.Consumiveis.Consumivel;
-import Itens.Enum.HabilidadeArma;
-import Utils.Som;
-import Itens.Enum.TipoItem;
 import Jogo.Jogo;
 import Mapa.Vila;
-import Ninjas.Enum.Afinidade;
-import Ninjas.Enum.Localizacao;
 import Ninjas.NPC.Maus.Inimigo;
-import Ninjas.NarutoSasuke.Naruto;
 import Ninjas.NarutoSasuke.Sasuke;
-import Ninjas.Ninja;
 
 import java.io.FileNotFoundException;
 import java.util.Scanner;
@@ -579,3 +570,4 @@ public class Luta {
     }
 
 }
+

@@ -1,15 +1,9 @@
-import Utils.Som;
-
-import javax.sound.sampled.*;
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import static Jogo.Jogo.jogo;
 import static Jogo.Menus.Navegacao.menuNavegacao;
 import static Jogo.Menus.NovoJogo.menuNovoJogo;
 import static Jogo.Paginas.Apresentacao.*;
-import static Utils.Som.*;
 
 /**
  * Classe principal que inicia o jogo "Naruto - Finding Sasuke".
