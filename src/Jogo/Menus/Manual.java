@@ -11,37 +11,56 @@ import static java.lang.Thread.sleep;
 
 public class Manual {
 
+    /**
+     * Exibe o menu do manual do jogo, permitindo visualizar:
+     * - Estatísticas do Naruto
+     * - Mochila (itens consumíveis)
+     * - História
+     * - Instruções do jogo
+     *
+     * Sai do manual ao escolher a opção 0.
+     */
     public static void manual() throws InterruptedException, FileNotFoundException {
         while (true) {
-            int opcao = manualMenu();
+            int opcao = manualMenu(); // Mostra o menu principal do manual
             if (opcao == 0) {
                 System.out.println("A sair do manual...");
                 sleep(2000);
-                break;
+                break; // Sai do loop do manual
             }
-            dispacherManual(opcao);
+            dispacherManual(opcao); // Executa a opção escolhida
         }
     }
 
+    /**
+     * Executa a ação correspondente à opção escolhida no manual.
+     *
+     * @param i opção escolhida
+     */
     private static void dispacherManual(int i) throws InterruptedException, FileNotFoundException {
         switch (i) {
             case 1:
-                mostrarStats();
+                mostrarStats(); // Mostra os stats de Naruto
                 break;
             case 2:
-                mostrarMochila();
+                mostrarMochila(); // Lista os itens na mochila
                 break;
             case 3:
-                mostrarHistoria();
+                mostrarHistoria(); // Exibe a história atual
                 break;
             case 4:
-                menuExplicacoes();
+                menuExplicacoes(); // Explicações sobre o funcionamento do jogo
                 break;
             default:
                 System.out.println("Opção inválida. Tente novamente.");
         }
     }
 
+    /**
+     * Mostra o menu principal do manual e lê a opção do utilizador.
+     *
+     * @return a opção escolhida (0 a 4)
+     */
     public static int manualMenu() {
         Scanner input = new Scanner(System.in);
         while (true) {
@@ -67,6 +86,10 @@ public class Manual {
         }
     }
 
+    /**
+     * Mostra as estatísticas atuais do Naruto:
+     * Vida, Chakra, Ataque, Defesa e Dinheiro.
+     */
     private static void mostrarStats() throws InterruptedException {
         cleanConsole();
         System.out.println("📊 STATS DE NARUTO\n");
@@ -76,10 +99,13 @@ public class Manual {
         System.out.println("Defesa: " + Jogo.getNaruto().getDefesa());
         System.out.println("Dinheiro: " + Jogo.getNaruto().getDinheiro());
         System.out.println("\n\n\n\n\n");
-        stop();
+        stop(); // Espera até o utilizador carregar numa tecla
     }
 
-    private static void mostrarMochila() throws InterruptedException {
+    /**
+     * Mostra os Itens na mochila do Naruto
+     */
+private static void mostrarMochila() throws InterruptedException {
         cleanConsole();
         System.out.println("🎒 MOCHILA DE NARUTO\n");
 
@@ -97,24 +123,34 @@ public class Manual {
             System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
             System.out.println("🎁 Item " + i++);
             System.out.println("🔹 Nome : " + consumivel.getNome());
-            System.out.println("💥 Efeito: " + consumivel.getPercentagemEfeito() + "%");
+            System.out.println("💥 Efeito: " + consumivel.getEfeito() + "%");
             System.out.println("🧬 Tipo : " + consumivel.getTipoConsumivel());
         }
         System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
 
         stop();
     }
-
+    /**
+     * Mostra aHistoria do jogo
+     */
     private static void mostrarHistoria() throws InterruptedException, FileNotFoundException {
         cleanConsole();
         imprimirFicheiro("src/imagens/Intro.txt");
         stop();
     }
 
+
+    /**
+     * Menu de explicações do jogo.
+     * Este menu permite ao jogador aprender mais sobre os conceitos fundamentais do jogo,
+     * como chakra, afinidade, itens especiais, lutas, navegação e Konoha.
+     *
+     * @throws InterruptedException caso o `sleep` seja interrompido.
+     */
     private static void menuExplicacoes() throws InterruptedException {
         Scanner input = new Scanner(System.in);
         while (true) {
-            cleanConsole();
+            cleanConsole(); // Limpa o console para mostrar o menu de forma limpa
             System.out.println("📊 EXPLICAÇÕES DE JOGO\n\n");
             System.out.println("💠 Chakra - PRIMA 1");
             System.out.println("🌪️ Afinidade Elemental - PRIMA 2");
@@ -125,22 +161,28 @@ public class Manual {
             System.out.println("🔙 Voltar - PRIMA 0");
             System.out.print("\nEscolha uma opção: ");
 
-            String op = input.nextLine().trim();
+            String op = input.nextLine().trim(); // Lê a opção escolhida pelo utilizador
             switch (op) {
-                case "1": explicacaoChakra(); break;
-                case "2": explicacaoAfinidade(); break;
-                case "3": explicacaoItensEspeciais(); break;
-                case "4": explicacaoLuta(); break;
-                case "5": explicacaoNavegacao(); break;
-                case "6": explicacaoKonoha(); break;
-                case "0": return;
+                case "1": explicacaoChakra(); break;              // Explicação sobre chakra
+                case "2": explicacaoAfinidade(); break;           // Explicação sobre afinidade elemental
+                case "3": explicacaoItensEspeciais(); break;      // Explicação sobre itens especiais
+                case "4": explicacaoLuta(); break;                // Explicação sobre o sistema de luta
+                case "5": explicacaoNavegacao(); break;           // Explicação sobre navegação no mapa
+                case "6": explicacaoKonoha(); break;              // Explicação sobre a vila de Konoha
+                case "0": return;                                 // Retorna ao menu anterior
                 default:
-                    System.out.println("⛔ Opção inválida!");
-                    sleep(1500);
+                    System.out.println("⛔ Opção inválida!");     // Feedback de erro
+                    sleep(1500); // Espera para o jogador ler a mensagem
             }
         }
     }
 
+    /**
+     * Mostra a explicação sobre o funcionamento do chakra no jogo.
+     * Explica sua importância, consumo, recuperação e fornece dicas estratégicas.
+     *
+     * @throws InterruptedException caso o método seja interrompido durante o `stop()`.
+     */
     private static void explicacaoChakra() throws InterruptedException {
         cleanConsole();
         System.out.println("🔵 CHAKRA: A ENERGIA NINJA\n");
@@ -158,6 +200,12 @@ public class Manual {
         stop();
     }
 
+    /**
+     * Mostra a explicação sobre o sistema de afinidade elemental.
+     * Informa como as vantagens e desvantagens elementares afetam o combate.
+     *
+     * @throws InterruptedException caso o método seja interrompido durante a execução de `stop()`.
+     */
     private static void explicacaoAfinidade() throws InterruptedException {
         cleanConsole();
         System.out.println("🌪️ AFINIDADE ELEMENTAL\n");
@@ -182,6 +230,12 @@ public class Manual {
         stop();
     }
 
+    /**
+     * Explica o funcionamento dos itens especiais no jogo.
+     * Detalha os benefícios ao equipar e onde podem ser encontrados.
+     *
+     * @throws InterruptedException caso ocorra uma interrupção durante o `stop()`.
+     */
     private static void explicacaoItensEspeciais() throws InterruptedException {
         cleanConsole();
         System.out.println("💠 ITENS ESPECIAIS: O SEGREDO DOS NINJAS LENDÁRIOS\n");
@@ -204,6 +258,12 @@ public class Manual {
         stop();
     }
 
+    /**
+     * Mostra a explicação sobre as mecânicas de combate do jogo.
+     * Detalha os tipos de ataque, uso de chakra, influência de afinidades e dá dicas estratégicas.
+     *
+     * @throws InterruptedException caso a execução seja interrompida durante a pausa (stop).
+     */
     private static void explicacaoLuta() throws InterruptedException {
         cleanConsole();
         System.out.println("⚔️ LUTA: ONDE NINJAS SE PROVAM\n");
@@ -226,6 +286,12 @@ public class Manual {
         stop();
     }
 
+    /**
+     * Explica ao jogador como funciona a navegação entre regiões no mundo do jogo.
+     * Informa sobre os perigos, aliados e a possibilidade de encontrar Sasuke.
+     *
+     * @throws InterruptedException caso a execução seja interrompida durante o stop().
+     */
     private static void explicacaoNavegacao() throws InterruptedException {
         cleanConsole();
         System.out.println("🗺️ NAVEGAÇÃO PELO MUNDO SHINOBI\n");
@@ -239,6 +305,12 @@ public class Manual {
         stop();
     }
 
+    /**
+     * Explica as funcionalidades disponíveis na vila de Konoha, considerada a base segura do jogador.
+     * Informa os serviços disponíveis e sua importância na preparação para a jornada.
+     *
+     * @throws InterruptedException caso a execução seja interrompida durante a pausa com stop().
+     */
     private static void explicacaoKonoha() throws InterruptedException {
         cleanConsole();
         System.out.println("🏯 BEM-VINDO À VILA DA FOLHA – KONOHA 🍃\n");

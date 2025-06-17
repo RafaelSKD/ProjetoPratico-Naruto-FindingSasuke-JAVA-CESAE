@@ -3,23 +3,28 @@ package Ninjas.NarutoSasuke;
 import Itens.Armaduras.Armadura;
 import Itens.Armas.Arma;
 import Itens.AtaqueChakra.AtaqueChakra;
-import Itens.Consumiveis.Consumivel;
-import Itens.Especial.Especial;
 import Ninjas.Enum.Afinidade;
 import Ninjas.Ninja;
 
-import java.util.ArrayList;
-
+/**
+ * Representa Sasuke, personagem controlado pelo jogo, com atributos únicos e ataques especiais.
+ * Herda da classe Ninja.
+ */
 public class Sasuke extends Ninja {
-    private Arma arma; // so pode ter uma arma
-    private Armadura cima; // pode ter uma armadura vestivel
-    private Armadura baixo; // pode ter uma armadura vestivel
-    private AtaqueChakra ataqueEspecial1;
-    private AtaqueChakra ataqueEspecial2;
+    private Arma arma; // Arma equipada (ex: Kusanagi)
+    private Armadura cima; // Parte superior da armadura (ex: Manto Uchiha Superior)
+    private Armadura baixo; // Parte inferior da armadura (ex: Calças Táticas Uchiha)
+    private AtaqueChakra ataqueEspecial1; // Primeiro jutsu especial (ex: Chidori)
+    private AtaqueChakra ataqueEspecial2; // Segundo jutsu especial (ex: Amaterasu)
 
+    /**
+     * Construtor de Sasuke com os parâmetros principais.
+     */
     public Sasuke(String nome, Afinidade afinidade, double chakra, double defesa, double ataque, double vida) {
         super(nome, afinidade, chakra, defesa, ataque, vida);
     }
+
+    // Getters e setters dos equipamentos e ataques
 
     public Arma getArma() {
         return arma;
@@ -44,7 +49,6 @@ public class Sasuke extends Ninja {
     public void setBaixo(Armadura baixo) {
         this.baixo = baixo;
     }
-
 
     public AtaqueChakra getAtaqueEspecial1() {
         return ataqueEspecial1;

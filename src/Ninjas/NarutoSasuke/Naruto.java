@@ -10,21 +10,30 @@ import Itens.Consumiveis.Consumivel;
 
 import java.util.ArrayList;
 
+/**
+ * Representa o personagem principal Naruto, com equipamento, ataques e inventário próprios.
+ * Herda da classe Ninja.
+ */
 public class Naruto extends Ninja {
 
-    private Arma arma; // so pode ter uma arma
-    private Especial especial; // pode ter um item que aumenta algo fixo
-    private Armadura cima; // pode ter uma armadura vestivel
-    private Armadura baixo; // pode ter uma armadura vestivel
-    private ArrayList<Consumivel> bolsa = new ArrayList<Consumivel>(); // conjunto de consumiveis
-    private AtaqueChakra ataqueEspecial1;
-    private AtaqueChakra ataqueEspecial2;
-    private double dinheiro;  // dinheiro que tem e pode ser roubado
+    private Arma arma; // Arma equipada (ex: kunai, bastão, etc.)
+    private Especial especial; // Item especial que aplica boost fixo (ex: +5 ataque)
+    private Armadura cima; // Parte superior da armadura equipada
+    private Armadura baixo; // Parte inferior da armadura equipada
+    private ArrayList<Consumivel> bolsa = new ArrayList<>(); // Itens consumíveis (ex: poções de vida)
+    private AtaqueChakra ataqueEspecial1; // Primeiro jutsu de ataque (ex: Rasengan)
+    private AtaqueChakra ataqueEspecial2; // Segundo jutsu de ataque (ex: Rasen-Shuriken)
+    private double dinheiro;  // Dinheiro atual do jogador (pode ser gasto ou roubado)
 
+    /**
+     * Construtor principal de Naruto.
+     */
     public Naruto(String nome, Afinidade afinidade, double chakra, double defesa, double ataque, double vida, double dinheiro) {
         super(nome, afinidade, chakra, defesa, ataque, vida);
         this.dinheiro = dinheiro;
     }
+
+    // Getters e setters para todos os atributos
 
     public Arma getArma() {
         return arma;
@@ -62,10 +71,6 @@ public class Naruto extends Ninja {
         return bolsa;
     }
 
-    public void setBolsa(ArrayList<Consumivel> bolsa) {
-        this.bolsa = bolsa;
-    }
-
     public AtaqueChakra getAtaqueEspecial1() {
         return ataqueEspecial1;
     }
@@ -90,38 +95,14 @@ public class Naruto extends Ninja {
         this.dinheiro = dinheiro;
     }
 
+    /**
+     * Adiciona um item consumível à bolsa de Naruto.
+     * @param consumivel o item a ser adicionado.
+     */
     public void addConsumivel(Consumivel consumivel) {
         if (bolsa == null) {
             bolsa = new ArrayList<>();
         }
         bolsa.add(consumivel);
     }
-
-    public void removeConsumivel(Consumivel consumivel) {
-        if (bolsa != null) {
-            bolsa.remove(consumivel);
-        }
-    }
-
-    public void addArma(Arma arma) {
-        this.arma = arma;
-    }
-    public void removeArma() {
-        this.arma = null;
-    }
-    public void addArmaduraCima(Armadura armadura, boolean isCima) {
-        if (isCima) {
-            this.cima = armadura;
-        } else {
-            this.baixo = armadura;
-        }
-    }
-    public void removeArmaduraCima(boolean isCima) {
-        if (isCima) {
-            this.cima = null;
-        } else {
-            this.baixo = null;
-        }
-    }
-
 }

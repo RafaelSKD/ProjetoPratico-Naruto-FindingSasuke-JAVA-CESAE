@@ -11,20 +11,17 @@ import static Jogo.Menus.NovoJogo.menuNovoJogo;
 import static Jogo.Paginas.Apresentacao.*;
 import static Utils.Som.*;
 
+/**
+ * Classe principal que inicia o jogo "Naruto - Finding Sasuke".
+ */
 public class IniciarJogo {
+
     public static void main(String[] args) throws IOException, InterruptedException {
         do {
-//            playIntro();
-//            inicio();
-//            stopIntro();
-            jogo();
-            menuNavegacao();
-            stopLose();
-            stopWin();
-        } while (menuNovoJogo() == 1);
-        playCredits();
-        creditos();
-        stopCredits();
+            inicio();           // Mostra a introdução do jogo (visual e sonora)
+            jogo();             // Inicializa todos os dados (Naruto, Sasuke, vilas, inimigos, amigos, loja, etc.)
+            menuNavegacao();    // Entra no menu de navegação e interação
+        } while (menuNovoJogo() == 1); // Permite recomeçar o jogo se o jogador quiser
+        creditos();            // Mostra os créditos finais
     }
 }
-

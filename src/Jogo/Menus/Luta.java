@@ -18,253 +18,189 @@ import Ninjas.Ninja;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
 
+import static Jogo.Luta.Combate.ataque;
+import static Jogo.Luta.Combate.ataqueFinal;
+import static Jogo.Luta.Defesa.defesa;
+import static Jogo.Luta.Defesa.defesaFinal;
 import static Jogo.Menus.Manual.manual;
 import static Utils.Som.*;
 import static Utils.Utils.*;
 import static java.lang.Thread.sleep;
 
 public class Luta {
-    public static void main(String[] args) {
-        Inimigo gara = new Inimigo("Gaara", Afinidade.TERRA, 500, 400, 350, 1000, 869.57, Localizacao.SUDOESTE);
-        Naruto naruto = new Naruto(
-                "Naruto Uzumaki",
-                Afinidade.VENTO,
-                1000.0, // chakra
-                350.0,  // defesa
-                400.0,  // ataque
-                900.0,  // vida
-                500 // dinheiro
-        );
-        Arma arma = new Arma("Cabaça de Areia", TipoItem.ARMA, HabilidadeArma.DEFESA, 40, 80, 0, 1000);
-        AtaqueChakra ataque1 = new AtaqueChakra("Rasengan", TipoItem.ATAQUEESPECIAL, 120.0, 80.0);
-        AtaqueChakra ataque2 = new AtaqueChakra("Rasen-Shuriken", TipoItem.ATAQUEESPECIAL, 200.0, 140.0);
-        gara.setArma(arma);
-        naruto.setAtaqueEspecial1(ataque1);
-        naruto.setAtaqueEspecial2(ataque2);
-        menuLutaTestes(gara, naruto);
-    }
-    public static void menuLutaTestes(Inimigo inimigo, Naruto naruto){  //para testes
-        System.out.println("▄     ▜     ▖ ▖▘   ▘                                                                                                                                         ▓█████████░                     ");
-        System.out.println("▌▌▌▌█▌▐ ▛▌  ▛▖▌▌▛▌ ▌▀▌                                                                                                                                     ███          ██    █░              ");
-        System.out.println("▙▘▙▌▙▖▐▖▙▌  ▌▝▌▌▌▌ ▌█▌                                                                      " + inimigo.getNome().toUpperCase() + colocarEspacos(inimigo.getNome().length(), 60) + "██░             ▒█░███▒              ");
-        System.out.println("MANUAL: PREMIR 0  ▙▌                                                                                    " + "❤\uFE0F Saude: " + inimigo.getVida() + colocarEspacos((String.valueOf(inimigo.getVida()).length()), 37) + "█▒                ░██ █▓              ");
-        System.out.println("                                                                                                        " + "\uD83D\uDCA0 Chakra: " + inimigo.getChakra() + colocarEspacos(String.valueOf(inimigo.getChakra()).length(), 35) + "█▓▒███████████████▒ ██ █░              ");
-        System.out.println("                                                                                                        " + emogiAfinidade(inimigo) + " Afinidade: " + inimigo.getAfinidade() + colocarEspacos((emogiAfinidade(inimigo).length() + inimigo.getAfinidade().name().length()), 33) + " ██▒   █             ████▒              ");
-        System.out.println("                                                                                                        " + "⚔\uFE0F Arma: " + getNomeArmaOuNenhuma(inimigo) + colocarEspacos(getNomeArmaOuNenhuma(inimigo).length(), 37) + "█     █░           ░▒████              ");
-        System.out.println("                                                                                                                                                      █░  ███████████████▒▒▒██▓█▓             ");
-        System.out.println("                                                                                                                                                      ███▓██▒   ▒█   ██▒█▓  ███ ██            ");
-        System.out.println("                                                                                                                                                       █████░▒    █▓██▓░▒█  █ ░████           ");
-        System.out.println("                                        NARUTO                                                                                                         ░█  ▒       █▒ ▓▓▓█ ██░    ░           ");
-        System.out.println("          " + "❤\uFE0F Saude: " + naruto.getVida() + colocarEspacos((String.valueOf(naruto.getVida()).length()), 131) + "█▒▒▓██████▒     ▒████▒██              ");
-        System.out.println("          " + "\uD83D\uDCA0 Chakra: " + naruto.getChakra() + colocarEspacos(String.valueOf(naruto.getChakra()).length(), 103) + "░░                       ██           ▒███▓  █▒ ██              ");
-        System.out.println("          " + emogiAfinidade(naruto) + " Afinidade: " + naruto.getAfinidade() + colocarEspacos((emogiAfinidade(naruto).length() + naruto.getAfinidade().name().length()), 104) + "███    ▓██               ▓█           ▒█░ ▒█▒   ██▓░          ");
-        System.out.println("          " + "⚔\uFE0F Arma: " + getNomeArmaOuNenhuma(naruto) + colocarEspacos(getNomeArmaOuNenhuma(naruto).length(), 107) + "█▓▒██████░                ▓█         ██ ░██    ▓█░  ███░      ");
-        System.out.println("                                                                                                                              ░█░█░███▒                  ██      ██████     ██       ▒██    ");
-        System.out.println("                                                                                                                              █▒ █████░                   ██  ██████▒     ▒█         ████▒  ");
-        System.out.println("                                                                                                                             █▓█████▒ ░░██                 ░▓▓████░      ██       ██▓    ██ ");
-        System.out.println("                                                                                                                             ██▓  ▓█ ▓██▓  ██                ▒█▒██░██   ▓█▒       ██       ██");
-        System.out.println("                                                                                                                                 ░███████  ██              ▒█░  ▒█▓██ ██        ██         █░");
-        System.out.println("             ░ ░░░░   ░░░░░  ░                                ░                                                                   ███████   █              ██ █   ▓███          █▒         █▓");
-        System.out.println("       ▓ ░▒░▒               ▓▒▒▒▒▒░                         ▒▓░                                                                   █▓ ░░▓██  ██░          ▒███ █▓   ██           █░         ██");
-        System.out.println("       ░                        ▒                        ░▒ █▒                                                                     ███░     ████        ██  ░█▒█   ▓█         █ █▒         ▒█");
-        System.out.println("        ░                      ░░                      ░░ ░█▒                                                                        ▒███▒██░  ███    ██      ██░  ░█         ▒███         ░█");
-        System.out.println("    ░░         ██████████         ▒▒                  ▒▒ ▓█░                                                                             █▓   ██ ░███████▒     ▓█   █░          ███         █░");
-        System.out.println("       ▓    ░ ▒▒   ▒▒▒░   ░ ▒ ░ ▒                 ▒ ░▓ ░██▒                                                                               ████░  ▓█ ██░█        █▓  ▒█           ░█         █▒");
-        System.out.println("     ░░  ░ █▒▒█     ▓░▓▒   ░▒█▓░ ░░             ░  ▒▒▓█▒▒                                                                                  ██   ██  ██  █      ███▒  █▒           █▒        █▓");
-        System.out.println("     ░░▒░▒█████▓░░▒▒▒▓▓▓▓▒▓████░            ░░▓░     ▒▒  ░                                                                             ");
-        System.out.println("       ▓▒█████▓▓▓▓▒░     ▒▓▒░▓█            ▒░▒    ▒▒░▒▒▒░░                                                                           ");
-        System.out.println("         ██ ▒ ▒  ████▒ ▒█▒██ ▒▒          ▒  ░  ░▒▓▓▒   ▒▓          ::::::::::::::::::::::::::::::::::::::::::::::::::: MENU DE COMBATE ::::::::::::::::::::::::::::::::::::::::::::::::::");
-        System.out.println("         ▒▓▓░    ░░    ░ ░░  ▒░        ░░   ░   ██▒░░ ▒▒                                                                            ");
-        System.out.println("         ▒░▓▓ ░░       ░     ▓░      ▒░░     ▒ ░███▓░                                                                                         ");
-        System.out.println("         ░▒     ░           ▒▒   ▒▒▒░ ░       ░▓  ░▒                         Murro Ascendente -        PREMIR: 1" + colocarEspacos(((naruto.getAtaqueEspecial1()).getNome()).length(), 34) + (naruto.getAtaqueEspecial1()).getNome() + "(" + (naruto.getAtaqueEspecial1()).getChakraNecessario() + "\uD83D\uDCA0)-" + colocarEspacos(String.valueOf((naruto.getAtaqueEspecial1()).getChakraNecessario()).length(), 12) + "PREMIR 4");
-        System.out.println("         ░░▒░▒░    ▒▒▒▒▒▒░  ▒▒▒░   ░              ▒                                                                                 ");
-        System.out.println("           ▒▒░▒░   ░      ░░▒░░   ░             ░                            Varrimento de Perna -     PREMIR: 2" + colocarEspacos(((naruto.getAtaqueEspecial2()).getNome()).length(), 34) + (naruto.getAtaqueEspecial2()).getNome() + "(" + (naruto.getAtaqueEspecial2()).getChakraNecessario() + "\uD83D\uDCA0)-" + colocarEspacos(String.valueOf((naruto.getAtaqueEspecial2()).getChakraNecessario()).length(), 12) + "PREMIR 5");
-        System.out.println("            ▒░▒▒ ░▒     ▒▒ ░▒  ░ ░           ░▓                                                                                     ");
-        System.out.println("          ▒  ░░ ░   ▒▒░ ░ ░▒   ░           ░▒░                               Atacar com Arma -         PREMIR: 3                         Mochila de Itens -        PREMIR 6");
-        System.out.println("          ▒░▓▒▒░▓▒  ▒ ░ ░ ░░   ░         ▒ ░                                                                                        ");
-        System.out.println("        ░▒▒ ░░  ▓  ░   ░▒░  ░░░         ░░                                                                                          ");
-        System.out.println("        ░░  ▓ ░░  ▒░  ░ ▒█     ░▒       ░░                                   O que o naruto vai fazer? -  ");
-    }
 
-    public static String emogiAfinidade(Ninja inimigo) {
-        switch (inimigo.getAfinidade()) {
-            case FOGO:
-                return "🔥";
-            case VENTO:
-                return "🌪️";
-            case RELAMPAGO:
-                return "⚡";
-            case AGUA:
-                return "💧";
-            case TERRA:
-                return "🪨";
-            default:
-                return "❓"; // Caso inesperado
-        }
-    }
 
-    public static String colocarEspacos(int texto, int espacos){
-        int spaces = espacos - texto;
-        return " ".repeat(Math.max(0, spaces));
-    }
-
-    public static String getNomeArmaOuNenhuma(Ninja ninja) {
-        if (ninja instanceof Inimigo) {
-            Inimigo inimigo = (Inimigo) ninja;
-            return inimigo.getArma() != null ? inimigo.getArma().getNome() : "Nenhuma";
-        } else if (ninja instanceof Naruto) {
-            Naruto naruto = (Naruto) ninja;
-            return naruto.getArma() != null ? naruto.getArma().getNome() : "Nenhuma";
-        } else if (ninja instanceof Sasuke) {
-            Sasuke sasuke = (Sasuke) ninja;
-            return sasuke.getArma() != null ? sasuke.getArma().getNome() : "Nenhuma";
-        } else {
-            return "Nenhuma";
-        }
-    }
-
+    /**
+     * Menu principal de combate entre Naruto e um inimigo.
+     * Controla o loop da luta enquanto ambos estiverem vivos, tratando ações do jogador e do inimigo.
+     *
+     * @param inimigo Inimigo com quem Naruto está lutando.
+     * @param vila    Vila onde o inimigo pertence (necessária para marcar como morto ao fim da luta).
+     * @throws InterruptedException Caso a thread seja pausada.
+     * @throws FileNotFoundException Caso os ficheiros de imagem/texto não sejam encontrados.
+     */
     public static void menuLuta(Inimigo inimigo, Vila vila) throws InterruptedException, FileNotFoundException {
-        int flag = 0;
-
+        // Loop de combate: continua enquanto ambos tiverem vida
         while ((Jogo.getNaruto()).getVida() > 0 && inimigo.getVida() > 0){
             cleanConsole();
-            int option = layoutMenuLuta(inimigo);
-            if (option != 1)
-                flag = dispacher(option, inimigo, flag);
-            if (option == 1){
-                int ramdom = random(2);
+            int option = layoutMenuLuta(inimigo); // Mostra opções de combate e retorna escolha do jogador
+
+            // Se a escolha não for fugir (-1), processa a opção
+            if (option != -1)
+                dispacher(option, inimigo);
+
+            // Tentativa de fuga
+            if (option == -1){
+                int ramdom = random(2); // 50% de chance de fugir com sucesso
+
                 if (ramdom == 0){
+                    stopAll();
                     System.out.println("\n\n                                                                                  Covarde!\n");
                     sleep(1500);
-                    break;
+                    break; // Sai do combate
                 }
+
                 if (ramdom == 1){
+                    // Fuga falhou, inimigo ataca
                     System.out.println("\n\n                                                                                  Oh nao!, Tentativa de Fugir falhada\n");
                     sleep(1500);
                     boolean inimigoAtacou = false;
+
                     while (!inimigoAtacou){
                         cleanConsole();
-                        menuInimigo(inimigo);
+                        menuInimigo(inimigo); // Mostra ação do inimigo
                         sleep(1500);
-                        inimigoAtacou = defesa(inimigo);
+                        inimigoAtacou = defesa(inimigo); // Trata da defesa e define se o ataque foi realizado
                     }
                 }
             }
         }
+
+        // Verifica se Naruto morreu
         if ((Jogo.getNaruto()).getVida() <= 0){
-            stopFight();
-            playLose();
-            cleanConsole();
-            imprimirFicheiro("src/imagens/NarutoDie.txt");
-            sleep(2000);
-            cleanConsole();
-            imprimirFicheiro("src/imagens/gameOver.txt");
-            sleep(2000);
+            stopAll();
             return;
         }
+
+        // Verifica se o inimigo foi derrotado
         if (inimigo.getVida() <= 0){
+            stopAll();
             cleanConsole();
-            imprimirFicheiro("src/imagens/InimigoMorto.txt");
+            imprimirFicheiro("src/imagens/InimigoMorto.txt"); // Mostra imagem de inimigo derrotado
             System.out.println("+ " + inimigo.getDinheiro() + " moedas!");
             sleep(2000);
-            (Jogo.getNaruto()).setDinheiro((Jogo.getNaruto()).getDinheiro() + inimigo.getDinheiro());
-            vila.morto(inimigo);
-            playNav();
+            (Jogo.getNaruto()).setDinheiro((Jogo.getNaruto()).getDinheiro() + inimigo.getDinheiro()); // Adiciona recompensa
+            vila.morto(inimigo); // Marca inimigo como morto na vila
         }
     }
 
-    public static void menuLutaFinal(Sasuke sasuke, Vila vila) throws InterruptedException, FileNotFoundException {
-        int flag = 0;
-
+    /**
+     * Luta final contra Sasuke. Controla as ações durante o combate, incluindo tentativa de fuga
+     * e turnos alternados entre Naruto e Sasuke.
+     *
+     * @param sasuke Oponente final do jogo.
+     * @throws InterruptedException Caso haja pausas com `sleep`.
+     * @throws FileNotFoundException Caso ocorra erro na leitura de ficheiros.
+     */
+    public static void menuLutaFinal(Sasuke sasuke) throws InterruptedException, FileNotFoundException {
+        // Loop de combate: enquanto ambos estiverem vivos
         while ((Jogo.getNaruto()).getVida() > 0 && sasuke.getVida() > 0){
-            cleanConsole();
-            int option = layoutMenuLutaFinal(sasuke);
-            if (option != 1)
-                flag = dispacherLutaFinal(option, sasuke, flag);
-            if (option == 1){
-                int ramdom = random(2);
+            cleanConsole(); // Limpa a consola para nova ronda
+            int option = layoutMenuLutaFinal(sasuke); // Mostra menu de opções de combate final
+
+            // Se jogador não escolheu fugir
+            if (option != -1)
+                dispacherLutaFinal(option, sasuke); // Processa ação do jogador
+
+            // Tentativa de fuga
+            if (option == -1){
+                int ramdom = random(2); // 50% de chance de fuga bem-sucedida
+
                 if (ramdom == 0){
+                    stopAll();
                     System.out.println("\n\n                                                                                  Covarde!\n");
                     sleep(1500);
-                    break;
+                    break; // Sai da luta
                 }
+
                 if (ramdom == 1){
+                    // Fuga falhada: Sasuke ataca
                     System.out.println("\n\n                                                                                  Oh nao!, Tentativa de Fugir falhada!!!\n");
                     sleep(1500);
                     boolean inimigoAtacou = false;
+
                     while (!inimigoAtacou){
                         cleanConsole();
-                        menuInimigoFinal(sasuke);
+                        menuInimigoFinal(sasuke); // Mostra ação do Sasuke
                         sleep(1500);
-                        inimigoAtacou = defesaFinal(sasuke);
+                        inimigoAtacou = defesaFinal(sasuke); // Naruto defende e luta continua
                     }
                 }
             }
         }
-        if ((Jogo.getNaruto()).getVida() <= 0){
-            stopSasuke();
-            playLose();
-            cleanConsole();
-            imprimirFicheiro("src/imagens/NarutoDie.txt");
-            sleep(4000);
-            cleanConsole();
-            imprimirFicheiro("src/imagens/gameOver.txt");
-            sleep(6000);
-            return;
-        }
-        if (sasuke.getVida() <= 0){
-            playWin();
-            cleanConsole();
-            imprimirFicheiro("src/imagens/sasukelose.txt");
-            sleep(2000);
-            cleanConsole();
-            imprimirFicheiro("src/imagens/NarutoWin.txt");
-            sleep(4000);
-            cleanConsole();
-            imprimirFicheiro("src/imagens/wingame.txt");
-            sleep(6000);
-        }
     }
 
-    private static int dispacher(int opcao, Inimigo inimigo, int flag) throws FileNotFoundException, InterruptedException {
+    /**
+     * Responsável por tratar as ações escolhidas por Naruto durante o combate.
+     * Após a ação de Naruto, se o inimigo ainda estiver vivo, ele contra-ataca.
+     *
+     * @param opcao  A opção escolhida no menu de combate.
+     * @param inimigo O inimigo atual em combate.
+     * @return 0 sempre, pois não há retorno funcional neste contexto.
+     * @throws FileNotFoundException Se ocorrer erro ao carregar imagens ou arquivos.
+     * @throws InterruptedException  Se houver interrupções durante chamadas sleep.
+     */
+    private static int dispacher(int opcao, Inimigo inimigo) throws FileNotFoundException, InterruptedException {
         boolean narutoAgiu = false;
 
         switch (opcao) {
             case 0:
+                // Abrir manual durante o combate
                 cleanConsole();
                 manual();
                 break;
-            case 1:
+            case -1:
+                // Tentativa de fuga — Naruto age, mas não ataca
                 cleanConsole();
                 narutoAgiu = true;
                 break;
-            case 2:
+            case 1:
+                // Ataque normal
                 cleanConsole();
                 narutoAgiu = ataque(inimigo, "normal") != 0;
                 break;
-            case 3:
+            case 2:
+                // Ataque com arma
                 cleanConsole();
                 narutoAgiu = ataque(inimigo, "arma") != 0;
                 break;
-            case 4:
+            case 3:
+                // Ataque com chakra 1
                 cleanConsole();
                 narutoAgiu = ataque(inimigo, "chakra1") != 0;
                 break;
-            case 5:
+            case 4:
+                // Ataque com chakra 2
                 cleanConsole();
                 narutoAgiu = ataque(inimigo, "chakra2") != 0;
                 break;
-            case 6:
+            case 5:
+                // Uso de item consumível
                 cleanConsole();
                 aplicarConsumivel(layoutMenuItem());
                 return 0;
         }
 
+        // Se Naruto agiu e o inimigo ainda está vivo, o inimigo ataca
         if (narutoAgiu && inimigo.getVida() > 0) {
             boolean inimigoAtacou = false;
-            if (opcao == 1){
-                inimigoAtacou = true; // para poder fugir sem ser atacado
+
+            // Se a opção foi fuga, o inimigo não ataca nessa iteração
+            if (opcao == -1){
+                inimigoAtacou = true;
             }
+
+            // Loop de ataque inimigo até ele completar a ação
             while (!inimigoAtacou){
                 cleanConsole();
                 menuInimigo(inimigo);
@@ -276,418 +212,87 @@ public class Luta {
         return 0;
     }
 
-    private static void aplicarConsumivel(int i) throws FileNotFoundException, InterruptedException {
-        Naruto naruto = Jogo.getNaruto();
-        if (i == 0) {
-            cleanConsole();
-            manual();
-        } else if (i > 0){
-            Consumivel consumivel = naruto.getBolsa().get(i - 1);
-            double percentagem = consumivel.getPercentagemEfeito();
-            double multiplicador = (percentagem / 100.0) + 1;
-
-            switch (consumivel.getTipoConsumivel()) {
-                case ATAQUE:
-                    double novoAtaque = naruto.getAtaque() * multiplicador;
-                    double ganhoAtaque = novoAtaque - naruto.getAtaque();
-                    System.out.println("Ganhou mais " + ganhoAtaque + " de força de ataque!");
-                    sleep(2000);
-                    naruto.setAtaque(novoAtaque);
-                    break;
-
-                case VIDA:
-                    double novaVida = naruto.getVida() * multiplicador;
-                    double ganhoVida = novaVida - naruto.getVida();
-                    System.out.println("Ganhou mais " + ganhoVida + " de vida!");
-                    sleep(2000);
-                    naruto.setVida(novaVida);
-                    break;
-
-                case CHAKRA:
-                    double novoChakra = naruto.getChakra() * multiplicador;
-                    double ganhoChakra = novoChakra - naruto.getChakra();
-                    System.out.println("Ganhou mais " + ganhoChakra + " de chakra!");
-                    sleep(2000);
-                    naruto.setChakra(novoChakra);
-                    break;
-            }
-
-            naruto.getBolsa().remove(i - 1);
-        }
-    }
-
-    private static int dispacherLutaFinal(int opcao, Sasuke inimigo, int flag) throws FileNotFoundException, InterruptedException {
+    /**
+     * Gerencia as ações de Naruto durante a luta final contra Sasuke.
+     * Após a escolha de ação, Sasuke pode contra-atacar se ainda estiver vivo.
+     *
+     * @param opcao   A opção selecionada no menu de luta final.
+     * @param inimigo Oponente da luta final (Sasuke).
+     * @return Retorna 0 após a execução da ação.
+     * @throws FileNotFoundException Se arquivos visuais (ex: manuais) não forem encontrados.
+     * @throws InterruptedException  Caso ocorra interrupção durante o uso do sleep().
+     */
+    private static int dispacherLutaFinal(int opcao, Sasuke inimigo) throws FileNotFoundException, InterruptedException {
         boolean narutoAgiu = false;
 
         switch (opcao) {
             case 0:
+                // Abre o manual durante o combate final
                 cleanConsole();
                 manual();
                 break;
-            case 1:
+            case -1:
+                // Naruto tenta fugir (ação inválida na prática, mas registrada)
                 cleanConsole();
                 narutoAgiu = true;
                 break;
-            case 2:
+            case 1:
+                // Ataque normal
                 cleanConsole();
                 narutoAgiu = ataqueFinal(inimigo, "normal") != 0;
                 break;
-            case 3:
+            case 2:
+                // Ataque com arma
                 cleanConsole();
                 narutoAgiu = ataqueFinal(inimigo, "arma") != 0;
                 break;
-            case 4:
+            case 3:
+                // Ataque com chakra tipo 1
                 cleanConsole();
                 narutoAgiu = ataqueFinal(inimigo, "chakra1") != 0;
                 break;
-            case 5:
+            case 4:
+                // Ataque com chakra tipo 2
                 cleanConsole();
                 narutoAgiu = ataqueFinal(inimigo, "chakra2") != 0;
                 break;
-            case 6:
+            case 5:
+                // Uso de item consumível
                 cleanConsole();
                 aplicarConsumivel(layoutMenuItem());
                 return 0;
         }
 
+        // Se Naruto atacou e Sasuke ainda tem vida, ele contra-ataca
         if (narutoAgiu && inimigo.getVida() > 0) {
             boolean inimigoAtacou = false;
-            if (opcao == 1){
-                inimigoAtacou = true; // para poder fugir sem ser atacado
+
+            // Caso de fuga — impede o contra-ataque direto
+            if (opcao == -1){
+                inimigoAtacou = true;
             }
+
+            // Loop até Sasuke executar com sucesso o contra-ataque
             while (!inimigoAtacou){
                 cleanConsole();
-                menuInimigoFinal(inimigo);
+                menuInimigoFinal(inimigo); // exibe ação de Sasuke
                 sleep(1500);
-                inimigoAtacou = defesaFinal(inimigo);
+                inimigoAtacou = defesaFinal(inimigo); // executa defesa de Naruto contra Sasuke
             }
         }
 
         return 0;
     }
 
-    private static boolean defesa(Inimigo inimigo) throws FileNotFoundException, InterruptedException {
-        int opcao = random(4);
-        double dano;
-
-        switch (opcao) {
-            case 0:
-                // Ataque normal
-                dano = inimigo.getAtaque() - calcularDefesaNaruto(Jogo.getNaruto());
-                if (influenciaNaturezaInimigo(inimigo))
-                    dano *= 1.2;
-                dano = Math.max(0, dano);
-                Jogo.getNaruto().setVida(Jogo.getNaruto().getVida() - dano);
-                cleanConsole();
-                imprimirFicheiro("src/imagens/ataque.txt");
-                System.out.println(inimigo.getNome() + " atacou você com um ataque normal!");
-                System.out.println("Você recebeu " + dano + " de dano.");
-                sleep(2000);
-                return true;
-
-            case 1:
-                // Ataque com arma
-                Arma arma = inimigo.getArma();
-                if (arma != null) {
-                    dano = inimigo.getAtaque() + arma.getAtaqueArma() - calcularDefesaNaruto(Jogo.getNaruto());
-                    if (influenciaNaturezaInimigo(inimigo))
-                        dano *= 1.2;
-                    dano = Math.max(0, dano);
-                    Jogo.getNaruto().setVida(Jogo.getNaruto().getVida() - dano);
-                    cleanConsole();
-                    playHit();
-                    imprimirFicheiro("src/imagens/ataque.txt");
-                    System.out.println(inimigo.getNome() + " atacou você com a arma " + getNomeArmaOuNenhuma(inimigo) + "!");
-                    System.out.println("Você recebeu " + dano + " de dano.");
-                    sleep(2000);
-                    stopHit();
-                    return true;
-                } else {
-                    return false;
-                }
-
-            case 2:
-                // Ataque especial
-                AtaqueChakra ataqueEspecial = inimigo.getAtaqueEspecial1();
-                if (ataqueEspecial != null) {
-                    System.out.println(inimigo.getNome() + " usou o ataque especial " + ataqueEspecial.getNome() + "!");
-                    dano = inimigo.getAtaque() + ataqueEspecial.getForcaExtra() - calcularDefesaNaruto(Jogo.getNaruto());
-                    if (influenciaNaturezaInimigo(inimigo))
-                        dano *= 1.2;
-                    dano = Math.max(0, dano);
-                    Jogo.getNaruto().setVida(Jogo.getNaruto().getVida() - dano);
-                    cleanConsole();
-                    playHit();
-                    imprimirFicheiro("src/imagens/ataque.txt");
-                    System.out.println("Você recebeu " + dano + " de dano.");
-                    sleep(2000);
-                    stopHit();
-                    return true;
-                } else {
-                    return false;
-                }
-
-            case 3:
-                // Ataque especial 2
-                AtaqueChakra ataqueEspecial2 = inimigo.getAtaqueEspecial2();
-                if (ataqueEspecial2 != null) {
-                    System.out.println(inimigo.getNome() + " usou o ataque especial " + ataqueEspecial2.getNome() + "!");
-                    dano = inimigo.getAtaque() + ataqueEspecial2.getForcaExtra() - calcularDefesaNaruto(Jogo.getNaruto());
-                    if (influenciaNaturezaInimigo(inimigo))
-                        dano *= 1.2;
-                    dano = Math.max(0, dano);
-                    Jogo.getNaruto().setVida(Jogo.getNaruto().getVida() - dano);
-                    playHit();
-                    cleanConsole();
-                    imprimirFicheiro("src/imagens/ataque.txt");
-                    System.out.println("Você recebeu " + dano + " de dano.");
-                    sleep(2000);
-                    stopHit();
-                    return true;
-                } else {
-                    return false;
-                }
-        }
-        return false;
-    }
-
-    private static boolean defesaFinal(Sasuke inimigo) throws FileNotFoundException, InterruptedException {
-        int opcao = random(4);
-        double dano;
-
-        switch (opcao) {
-            case 0:
-                // Ataque normal
-                dano = inimigo.getAtaque() - calcularDefesaNaruto(Jogo.getNaruto());
-                dano *= 1.2;
-                dano = Math.max(0, dano);
-                Jogo.getNaruto().setVida(Jogo.getNaruto().getVida() - dano);
-                cleanConsole();
-                playHit();
-                imprimirFicheiro("src/imagens/ataque.txt");
-                System.out.println(inimigo.getNome() + " atacou você com um ataque normal!");
-                System.out.println("Você recebeu " + dano + " de dano.");
-                sleep(2000);
-                stopHit();
-                return true;
-
-            case 1:
-                // Ataque com arma
-                Arma arma = inimigo.getArma();
-                if (arma != null) {
-                    dano = inimigo.getAtaque() + arma.getAtaqueArma() - calcularDefesaNaruto(Jogo.getNaruto());
-                    dano *= 1.2;
-                    dano = Math.max(0, dano);
-                    Jogo.getNaruto().setVida(Jogo.getNaruto().getVida() - dano);
-                    playHit();
-                    cleanConsole();
-                    imprimirFicheiro("src/imagens/ataque.txt");
-                    System.out.println(inimigo.getNome() + " atacou você com a arma " + getNomeArmaOuNenhuma(inimigo) + "!");
-                    System.out.println("Você recebeu " + dano + " de dano.");
-                    sleep(2000);
-                    stopHit();
-                    return true;
-                } else {
-                    return false;
-                }
-
-            case 2:
-                // Ataque especial
-                AtaqueChakra ataqueEspecial = inimigo.getAtaqueEspecial1();
-                if (ataqueEspecial != null) {
-                    System.out.println(inimigo.getNome() + " usou o ataque especial " + ataqueEspecial.getNome() + "!");
-                    dano = inimigo.getAtaque() + ataqueEspecial.getForcaExtra() - calcularDefesaNaruto(Jogo.getNaruto());
-                    dano *= 1.2;
-                    dano = Math.max(0, dano);
-                    Jogo.getNaruto().setVida(Jogo.getNaruto().getVida() - dano);
-                    cleanConsole();
-                    imprimirFicheiro("src/imagens/ataque.txt");
-                    System.out.println("Você recebeu " + dano + " de dano.");
-                    playHit();
-                    sleep(2000);
-                    stopHit();
-                    return true;
-                } else {
-                    return false;
-                }
-
-            case 3:
-                // Ataque especial 2
-                AtaqueChakra ataqueEspecial2 = inimigo.getAtaqueEspecial2();
-                if (ataqueEspecial2 != null) {
-                    System.out.println(inimigo.getNome() + " usou o ataque especial " + ataqueEspecial2.getNome() + "!");
-                    dano = inimigo.getAtaque() + ataqueEspecial2.getForcaExtra() - calcularDefesaNaruto(Jogo.getNaruto());
-                    dano *= 1.2;
-                    dano = Math.max(0, dano);
-                    Jogo.getNaruto().setVida(Jogo.getNaruto().getVida() - dano);
-                    cleanConsole();
-                    imprimirFicheiro("src/imagens/ataque.txt");
-                    System.out.println("Você recebeu " + dano + " de dano.");
-                    playHit();
-                    sleep(2000);
-                    stopHit();
-                    return true;
-                } else {
-                    return false;
-                }
-        }
-        return false;
-    }
-
-    private static int ataque(Inimigo inimigo, String tipo) throws FileNotFoundException, InterruptedException {
-        Naruto naruto = Jogo.getNaruto();
-        boolean vantagemNatureza = influenciaNatureza(inimigo);
-        double ataqueBase = naruto.getAtaque();
-        double dano = 0;
-        String descricaoAtaque = "";
-
-        switch (tipo) {
-            case "normal":
-                dano = ataqueBase - inimigo.getDefesa();
-                descricaoAtaque = "um ataque normal";
-                break;
-
-            case "arma":
-                Arma arma = naruto.getArma();
-                if (arma == null) {
-                    return 0;
-                }
-                dano = ataqueBase + arma.getAtaqueArma() - inimigo.getDefesa();
-                descricaoAtaque = "a arma " + arma.getNome();
-                break;
-
-            case "chakra1":
-            case "chakra2":
-                AtaqueChakra ataqueEspecial = tipo.equals("chakra1") ? naruto.getAtaqueEspecial1() : naruto.getAtaqueEspecial2();
-                if (ataqueEspecial == null) {
-                    System.out.println("Você não tem um ataque especial equipado!");
-                    sleep(2000);
-                    return 0;
-                }
-                if (naruto.getChakra() < ataqueEspecial.getChakraNecessario()) {
-                    System.out.println("Chakra insuficiente para realizar o ataque especial!");
-                    sleep(2000);
-                    return 0;
-                }
-                dano = ataqueBase + ataqueEspecial.getForcaExtra() - inimigo.getDefesa();
-                naruto.setChakra(naruto.getChakra() - ataqueEspecial.getChakraNecessario());
-                descricaoAtaque = "o ataque especial " + ataqueEspecial.getNome();
-                break;
-
-            default:
-                return 0;
-        }
-
-        // Aplicar vantagem elemental se houver
-        if (vantagemNatureza) {
-            dano *= 1.2;
-        }
-
-        // Evita dano negativo (cura)
-        dano = Math.max(0, dano);
-        inimigo.setVida(inimigo.getVida() - dano);
-        imprimirFicheiro("src/imagens/ataque.txt");
-        System.out.printf("Você atacou %s com %s causando %.1f de dano.%n", inimigo.getNome(), descricaoAtaque, dano);
-        playDattebayo();
-        sleep(2000);
-        stopDattebayo();
-        return 1;
-    }
-
-    private static int ataqueFinal(Sasuke inimigo, String tipo) throws FileNotFoundException, InterruptedException {
-        Naruto naruto = Jogo.getNaruto();
-        double ataqueBase = naruto.getAtaque();
-        double dano;
-        String descricaoAtaque = "";
-
-        switch (tipo) {
-            case "normal":
-                dano = ataqueBase - calcularDefesaSasuke(inimigo);
-                descricaoAtaque = "um ataque normal";
-                break;
-
-            case "arma":
-                Arma arma = naruto.getArma();
-                if (arma == null) {
-                    return 0;
-                }
-                dano = ataqueBase + arma.getAtaqueArma() - calcularDefesaSasuke(inimigo);
-                descricaoAtaque = "a arma " + arma.getNome();
-                break;
-
-            case "chakra1":
-            case "chakra2":
-                AtaqueChakra ataqueEspecial = tipo.equals("chakra1") ? naruto.getAtaqueEspecial1() : naruto.getAtaqueEspecial2();
-                if (ataqueEspecial == null) {
-                    System.out.println("Você não tem um ataque especial equipado!");
-                    sleep(2000);
-                    return 0;
-                }
-                if (naruto.getChakra() < ataqueEspecial.getChakraNecessario()) {
-                    System.out.println("Chakra insuficiente para realizar o ataque especial!");
-                    sleep(2000);
-                    return 0;
-                }
-                dano = ataqueBase + ataqueEspecial.getForcaExtra() - calcularDefesaSasuke(inimigo);
-                naruto.setChakra(naruto.getChakra() - ataqueEspecial.getChakraNecessario());
-                descricaoAtaque = "o ataque especial " + ataqueEspecial.getNome();
-                break;
-
-            default:
-                return 0;
-        }
-
-        // Garante que o dano mínimo seja 0 (não cura o inimigo)
-        dano = Math.max(0, dano);
-        inimigo.setVida(inimigo.getVida() - dano);
-        imprimirFicheiro("src/imagens/ataque.txt");
-        System.out.printf("Você atacou %s com %s causando %.1f de dano.%n", inimigo.getNome(), descricaoAtaque, dano);
-        playDattebayo();
-        sleep(2000);
-        stopDattebayo();
-        return 1;
-    }
-
-    private static boolean influenciaNatureza(Inimigo inimigo) {
-        Afinidade afinidadeNaruto = Jogo.getNaruto().getAfinidade();
-        Afinidade afinidadeInimigo = inimigo.getAfinidade();
-
-        switch (afinidadeNaruto) {
-            case FOGO:
-                return afinidadeInimigo == Afinidade.VENTO;
-            case VENTO:
-                return afinidadeInimigo == Afinidade.RELAMPAGO;
-            case RELAMPAGO:
-                return afinidadeInimigo == Afinidade.TERRA;
-            case TERRA:
-                return afinidadeInimigo == Afinidade.AGUA;
-            case AGUA:
-                return afinidadeInimigo == Afinidade.FOGO;
-            default:
-                return false;
-        }
-    }
-
-    private static boolean influenciaNaturezaInimigo(Inimigo inimigo) {
-        Afinidade afinidadeInimigo = inimigo.getAfinidade();
-        Afinidade afinidadeNaruto = Jogo.getNaruto().getAfinidade();
-
-        switch (afinidadeInimigo) {
-            case FOGO:
-                return afinidadeNaruto == Afinidade.VENTO;
-            case VENTO:
-                return afinidadeNaruto == Afinidade.RELAMPAGO;
-            case RELAMPAGO:
-                return afinidadeNaruto == Afinidade.TERRA;
-            case TERRA:
-                return afinidadeNaruto == Afinidade.AGUA;
-            case AGUA:
-                return afinidadeNaruto == Afinidade.FOGO;
-            default:
-                return false;
-        }
-    }
-
+    /**
+     * Exibe o menu de combate durante a luta contra um inimigo comum.
+     * Mostra os dados de Naruto e do inimigo, incluindo vida, chakra, arma e afinidade,
+     * além das opções de ataque, fuga ou uso de item.
+     *
+     * @param inimigo O inimigo atual contra quem Naruto está lutando.
+     * @return A opção escolhida pelo jogador (-1 para fugir, 0 para manual, 1-5 para ações).
+     * @throws InterruptedException Caso ocorra interrupção durante a pausa (sleep).
+     */
     public static int layoutMenuLuta(Inimigo inimigo) throws InterruptedException {
         Scanner input = new Scanner(System.in);
         int option;
@@ -724,11 +329,11 @@ public class Luta {
             System.out.println("         ██ ▒ ▒  ████▒ ▒█▒██ ▒▒          ▒  ░  ░▒▓▓▒   ▒▓          ::::::::::::::::::::::::::::::::::::::::::::::::::: MENU DE COMBATE ::::::::::::::::::::::::::::::::::::::::::::::::::");
             System.out.println("         ▒▓▓░    ░░    ░ ░░  ▒░        ░░   ░   ██▒░░ ▒▒                                                                            ");
             System.out.println("         ▒░▓▓ ░░       ░     ▓░      ▒░░     ▒ ░███▓░                                                                                         ");
-            System.out.println("         ░▒     ░           ▒▒   ▒▒▒░ ░       ░▓  ░▒                         Fugir Amedrontado! -      PREMIR: 1" + colocarEspacos((((Jogo.getNaruto()).getAtaqueEspecial1()).getNome()).length(), 34) + ((Jogo.getNaruto()).getAtaqueEspecial1()).getNome() + "(" + ((Jogo.getNaruto()).getAtaqueEspecial1()).getChakraNecessario() + "\uD83D\uDCA0)-" + colocarEspacos(String.valueOf(((Jogo.getNaruto()).getAtaqueEspecial1()).getChakraNecessario()).length(), 12) + "PREMIR 4");
+            System.out.println("         ░▒     ░           ▒▒   ▒▒▒░ ░       ░▓  ░▒                         Fugir Amedrontado! -      PREMIR:-1" + colocarEspacos((((Jogo.getNaruto()).getAtaqueEspecial1()).getNome()).length(), 34) + ((Jogo.getNaruto()).getAtaqueEspecial1()).getNome() + "(" + ((Jogo.getNaruto()).getAtaqueEspecial1()).getChakraNecessario() + "\uD83D\uDCA0)-" + colocarEspacos(String.valueOf(((Jogo.getNaruto()).getAtaqueEspecial1()).getChakraNecessario()).length(), 12) + "PREMIR 3");
             System.out.println("         ░░▒░▒░    ▒▒▒▒▒▒░  ▒▒▒░   ░              ▒                                                                                 ");
-            System.out.println("           ▒▒░▒░   ░      ░░▒░░   ░             ░                            Ataque normal -           PREMIR: 2" + colocarEspacos((((Jogo.getNaruto()).getAtaqueEspecial2()).getNome()).length(), 34) + ((Jogo.getNaruto()).getAtaqueEspecial2()).getNome() + "(" + ((Jogo.getNaruto()).getAtaqueEspecial2()).getChakraNecessario() + "\uD83D\uDCA0)-" + colocarEspacos(String.valueOf(((Jogo.getNaruto()).getAtaqueEspecial2()).getChakraNecessario()).length(), 12) + "PREMIR 5");
+            System.out.println("           ▒▒░▒░   ░      ░░▒░░   ░             ░                            Ataque normal -           PREMIR: 1" + colocarEspacos((((Jogo.getNaruto()).getAtaqueEspecial2()).getNome()).length(), 34) + ((Jogo.getNaruto()).getAtaqueEspecial2()).getNome() + "(" + ((Jogo.getNaruto()).getAtaqueEspecial2()).getChakraNecessario() + "\uD83D\uDCA0)-" + colocarEspacos(String.valueOf(((Jogo.getNaruto()).getAtaqueEspecial2()).getChakraNecessario()).length(), 12) + "PREMIR 4");
             System.out.println("            ▒░▒▒ ░▒     ▒▒ ░▒  ░ ░           ░▓                                                                                     ");
-            System.out.println("          ▒  ░░ ░   ▒▒░ ░ ░▒   ░           ░▒░                               Atacar com Arma -         PREMIR: 3                         Mochila de Itens -        PREMIR 6");
+            System.out.println("          ▒  ░░ ░   ▒▒░ ░ ░▒   ░           ░▒░                               Atacar com Arma -         PREMIR: 2                         Mochila de Itens -        PREMIR 5");
             System.out.println("          ▒░▓▒▒░▓▒  ▒ ░ ░ ░░   ░         ▒ ░                                                                                        ");
             System.out.println("        ░▒▒ ░░  ▓  ░   ░▒░  ░░░         ░░                                                                                          ");
             System.out.print("        ░░  ▓ ░░  ▒░  ░ ▒█     ░▒       ░░                                   O que o naruto vai fazer? -  ");
@@ -736,10 +341,10 @@ public class Luta {
                 String line = input.nextLine().trim();
                 try {
                     option = Integer.parseInt(line);
-                    if (option >= 0 && option <= 6) {
+                    if (option >= -1 && option <= 5) {
                         break;
                     } else {
-                        System.out.println("\n\n                                                   ⛔ Opção inválida! Escolha um número de 0 a 6. ⛔\n");
+                        System.out.println("\n\n                                                   ⛔ Opção inválida! Escolha um número de -1 a 5. ⛔\n");
                     }
                 } catch (NumberFormatException e) {
                     System.out.println("\n\n                                                  ⛔ Entrada inválida! Por favor, insira um número. ⛔\n");
@@ -750,6 +355,15 @@ public class Luta {
         return option;
     }
 
+    /**
+     * Exibe o menu de combate durante a luta contra o Sasuke.
+     * Mostra os dados de Naruto e do Sasuke, incluindo vida, chakra, arma e afinidade,
+     * além das opções de ataque, fuga ou uso de item.
+     *
+     * @param inimigo O Sasuke contra quem Naruto está lutando.
+     * @return A opção escolhida pelo jogador (-1 para fugir, 0 para manual, 1-5 para ações).
+     * @throws InterruptedException Caso ocorra interrupção durante a pausa (sleep).
+     */
     public static int layoutMenuLutaFinal(Sasuke inimigo) throws InterruptedException {
         Scanner input = new Scanner(System.in);
         int option;
@@ -786,11 +400,11 @@ public class Luta {
             System.out.println("         ██ ▒ ▒  ████▒ ▒█▒██ ▒▒          ▒  ░  ░▒▓▓▒   ▒▓          ::::::::::::::::::::::::::::::::::::::::::::::::::: MENU DE COMBATE ::::::::::::::::::::::::::::::::::::::::::::::::::");
             System.out.println("         ▒▓▓░    ░░    ░ ░░  ▒░        ░░   ░   ██▒░░ ▒▒                                                                            ");
             System.out.println("         ▒░▓▓ ░░       ░     ▓░      ▒░░     ▒ ░███▓░                                                                                         ");
-            System.out.println("         ░▒     ░           ▒▒   ▒▒▒░ ░       ░▓  ░▒                         Fugir Amedrontado! -      PREMIR: 1" + colocarEspacos((((Jogo.getNaruto()).getAtaqueEspecial1()).getNome()).length(), 34) + ((Jogo.getNaruto()).getAtaqueEspecial1()).getNome() + "(" + ((Jogo.getNaruto()).getAtaqueEspecial1()).getChakraNecessario() + "\uD83D\uDCA0)-" + colocarEspacos(String.valueOf(((Jogo.getNaruto()).getAtaqueEspecial1()).getChakraNecessario()).length(), 12) + "PREMIR 4");
+            System.out.println("         ░▒     ░           ▒▒   ▒▒▒░ ░       ░▓  ░▒                         Fugir Amedrontado! -      PREMIR:-1" + colocarEspacos((((Jogo.getNaruto()).getAtaqueEspecial1()).getNome()).length(), 34) + ((Jogo.getNaruto()).getAtaqueEspecial1()).getNome() + "(" + ((Jogo.getNaruto()).getAtaqueEspecial1()).getChakraNecessario() + "\uD83D\uDCA0)-" + colocarEspacos(String.valueOf(((Jogo.getNaruto()).getAtaqueEspecial1()).getChakraNecessario()).length(), 12) + "PREMIR 3");
             System.out.println("         ░░▒░▒░    ▒▒▒▒▒▒░  ▒▒▒░   ░              ▒                                                                                 ");
-            System.out.println("           ▒▒░▒░   ░      ░░▒░░   ░             ░                            Ataque normal -           PREMIR: 2" + colocarEspacos((((Jogo.getNaruto()).getAtaqueEspecial2()).getNome()).length(), 34) + ((Jogo.getNaruto()).getAtaqueEspecial2()).getNome() + "(" + ((Jogo.getNaruto()).getAtaqueEspecial2()).getChakraNecessario() + "\uD83D\uDCA0)-" + colocarEspacos(String.valueOf(((Jogo.getNaruto()).getAtaqueEspecial2()).getChakraNecessario()).length(), 12) + "PREMIR 5");
+            System.out.println("           ▒▒░▒░   ░      ░░▒░░   ░             ░                            Ataque normal -           PREMIR: 1" + colocarEspacos((((Jogo.getNaruto()).getAtaqueEspecial2()).getNome()).length(), 34) + ((Jogo.getNaruto()).getAtaqueEspecial2()).getNome() + "(" + ((Jogo.getNaruto()).getAtaqueEspecial2()).getChakraNecessario() + "\uD83D\uDCA0)-" + colocarEspacos(String.valueOf(((Jogo.getNaruto()).getAtaqueEspecial2()).getChakraNecessario()).length(), 12) + "PREMIR 4");
             System.out.println("            ▒░▒▒ ░▒     ▒▒ ░▒  ░ ░           ░▓                                                                                     ");
-            System.out.println("          ▒  ░░ ░   ▒▒░ ░ ░▒   ░           ░▒░                               Atacar com Arma -         PREMIR: 3                         Mochila de Itens -        PREMIR 6");
+            System.out.println("          ▒  ░░ ░   ▒▒░ ░ ░▒   ░           ░▒░                               Atacar com Arma -         PREMIR: 2                         Mochila de Itens -        PREMIR 5");
             System.out.println("          ▒░▓▒▒░▓▒  ▒ ░ ░ ░░   ░         ▒ ░                                                                                        ");
             System.out.println("        ░▒▒ ░░  ▓  ░   ░▒░  ░░░         ░░                                                                                          ");
             System.out.print("        ░░  ▓ ░░  ▒░  ░ ▒█     ░▒       ░░                                   O que o naruto vai fazer? -  ");
@@ -798,13 +412,13 @@ public class Luta {
                 String line = input.nextLine().trim();
                 try {
                     option = Integer.parseInt(line);
-                    if (option >= 0 && option <= 6) {
+                    if (option >= -1 && option <= 5) {
                         break;
                     } else {
                         System.out.println("\n\n                                                   ⛔ Opção inválida! Escolha um número de 0 a 6. ⛔\n");
                     }
                 } catch (NumberFormatException e) {
-                    System.out.println("\n\n                                                  ⛔ Entrada inválida! Por favor, insira um número. ⛔\n");
+                    System.out.println("\n\n                                                      ⛔ Entrada inválida! Por favor, insira um número. ⛔\n");
                 }
             }
             sleep(2500); // para dar tempo de ler a mensagem!
@@ -812,6 +426,13 @@ public class Luta {
         return option;
     }
 
+    /**
+     * Exibe o menu de seleção de consumíveis disponíveis na bolsa de Naruto durante a luta.
+     * O jogador pode escolher qual consumível deseja usar, visualizar seus efeitos e tipos.
+     *
+     * @return O número do item selecionado (1 a N), 0 para manual, ou -1 para sair sem usar item.
+     * @throws InterruptedException Se a thread for interrompida durante o sleep.
+     */
     public static int layoutMenuItem() throws InterruptedException {
         Scanner input = new Scanner(System.in);
         int option = -1;
@@ -828,7 +449,7 @@ public class Luta {
                 Consumivel consumivelAtual = Jogo.getNaruto().getBolsa().get(consumivel);
                 System.out.println("\n                                              Item " + (consumivel + 1) + ":\n");
                 System.out.println("                                              Nome : " + consumivelAtual.getNome());
-                System.out.println("                                              Forca: " + consumivelAtual.getPercentagemEfeito());
+                System.out.println("                                              Forca: " + consumivelAtual.getEfeito());
                 System.out.println("                                              Tipo : " + consumivelAtual.getTipoConsumivel());
                 consumivel++;
             }
@@ -857,6 +478,13 @@ public class Luta {
         return option;
     }
 
+    /**
+     * Exibe o turno do inimigo durante o combate.
+     * Mostra os status detalhados do inimigo e de Naruto, incluindo saúde, chakra, afinidade e arma.
+     * Este método apenas imprime o layout visual sem realizar ações do inimigo.
+     *
+     * @param inimigo O inimigo atual em combate.
+     */
     public static void menuInimigo(Inimigo inimigo){
         System.out.println("▄     ▜     ▖ ▖▘   ▘                                                                                                                                         ▓█████████░                     ");
         System.out.println("▌▌▌▌█▌▐ ▛▌  ▛▖▌▌▛▌ ▌▀▌                                                                                                                                     ███          ██    █░              ");
@@ -900,6 +528,13 @@ public class Luta {
         System.out.print("        ░░  ▓ ░░  ▒░  ░ ▒█     ░▒       ░░                                 ");
     }
 
+    /**
+     * Exibe o turno do Sasuke durante o combate.
+     * Mostra os status detalhados do Sasuke e de Naruto, incluindo saúde, chakra, afinidade e arma.
+     * Este método apenas imprime o layout visual sem realizar ações do Sasuke.
+     *
+     * @param inimigo O Sasuke em combate.
+     */
     public static void menuInimigoFinal(Sasuke inimigo){
         System.out.println("▄     ▜     ▖ ▖▘   ▘                                                                                                                                         ▓█████████░                     ");
         System.out.println("▌▌▌▌█▌▐ ▛▌  ▛▖▌▌▛▌ ▌▀▌                                                                                                                                     ███          ██    █░              ");
@@ -943,25 +578,4 @@ public class Luta {
         System.out.print("        ░░  ▓ ░░  ▒░  ░ ▒█     ░▒       ░░                                 ");
     }
 
-    public static double calcularDefesaNaruto(Naruto naruto){
-        double defesa = naruto.getDefesa();
-        if (naruto.getBaixo() != null){
-            defesa += (naruto.getBaixo()).getDefesaArmadura();
-        }
-        if (naruto.getCima() != null){
-            defesa += (naruto.getCima()).getDefesaArmadura();
-        }
-        return defesa;
-    }
-
-    public static double calcularDefesaSasuke(Sasuke sasuke){
-        double defesa = sasuke.getDefesa();
-        if (sasuke.getBaixo() != null){
-            defesa += (sasuke.getBaixo()).getDefesaArmadura();
-        }
-        if (sasuke.getCima() != null){
-            defesa += (sasuke.getCima()).getDefesaArmadura();
-        }
-        return defesa;
-    }
 }

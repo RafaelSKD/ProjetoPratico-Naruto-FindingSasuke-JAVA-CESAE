@@ -3,16 +3,27 @@ package Jogo.InicializarObjetos.Ninjas;
 import Ninjas.Enum.Afinidade;
 import Ninjas.NarutoSasuke.Sasuke;
 
+/**
+ * Classe responsável por criar e inicializar a instância do personagem Sasuke.
+ * Define os atributos base do Sasuke no jogo, que é o principal antagonista do Naruto neste contexto.
+ */
 public class InicializarSasuke {
-    public static Sasuke inicializarSasuke(){
+
+    /**
+     * Inicializa o objeto Sasuke com seus valores base.
+     *
+     * @return Instância de Sasuke com atributos pré-definidos.
+     */
+    public static Sasuke inicializarSasuke() {
         Sasuke sasuke = new Sasuke(
                 "Sasuke Uchiha",
-                Afinidade.RELAMPAGO,
-                1000.0,  // chakra
-                500.0,  // defesa
-                500.0,  // ataque
-                1500.0  // vida
+                Afinidade.RELAMPAGO, // Afinidade elemental principal
+                1000.0,              // Chakra inicial elevado
+                500.0,               // Defesa elevada
+                1000.0,              // Ataque extremamente alto
+                2000.0               // Vida máxima
         );
+
         return sasuke;
     }
 }

@@ -32,31 +32,45 @@ import static Ninjas.Enum.Localizacao.*;
 import static Utils.Utils.random;
 import static java.util.Collections.addAll;
 
+/**
+ * Classe principal que centraliza os dados e estado do jogo.
+ */
 public class Jogo {
     private String nome = "Naruto - Finding Sasuke";
+
+    // Objetos principais do jogo
     private static Naruto naruto;
     private static Sasuke sasuke;
+
+    // Dados globais do jogo
     private static ArrayList<Vila> listaVilas;
     private static ArrayList<Inimigo> listaInimigos;
     private static ArrayList<Amigo> listaAmigos;
     private static ArrayList<Item> listaItens;
     private ArrayList<AtaqueChakra> listaAtaqueChakra;
+
+    // Itens disponíveis na loja da TenTen
     private static ArrayList<Item> LojaTenTen;
 
+    // Getter para os itens da loja
     public static ArrayList<Item> getLojaTenTen() {
         return LojaTenTen;
     }
 
-    public static void setLojaTenTen(ArrayList<Item> lojaTenTen) {
-        LojaTenTen = lojaTenTen;
-    }
-
+    /**
+     * Gera dinamicamente os itens que vão estar disponíveis na loja da TenTen.
+     * A seleção respeita a probabilidade de spawn definida para cada item.
+     */
     public static void addLojaTenTen() {
         LojaTenTen = new ArrayList<>();
 
         while (LojaTenTen.size() < 11) {
             int index = random(listaItens.size());
             Item item = listaItens.get(index);
+
+            if (LojaTenTen.contains(item)) {
+                continue;
+            }
 
             if (item instanceof Arma) {
                 Arma arma = (Arma) item;
@@ -77,6 +91,7 @@ public class Jogo {
         }
     }
 
+    // Getters e Setters do nome do jogo
     public String getNome() {
         return nome;
     }
@@ -85,6 +100,7 @@ public class Jogo {
         this.nome = nome;
     }
 
+    // Getters e Setters para Naruto e Sasuke
     public static Naruto getNaruto() {
         return naruto;
     }
@@ -101,88 +117,91 @@ public class Jogo {
         this.sasuke = sasuke;
     }
 
+    // Getter para lista de vilas
     public static ArrayList<Vila> getListaVilas() {
         return listaVilas;
     }
 
-    public void setListaVilas(ArrayList<Vila> listaVilas) {
-        this.listaVilas = listaVilas;
-    }
-
-    public ArrayList<Inimigo> getListaInimigos() {
-        return listaInimigos;
-    }
-
-    public void setListaInimigos(ArrayList<Inimigo> listaInimigos) {
-        this.listaInimigos = listaInimigos;
-    }
-
-    public ArrayList<Amigo> getListaAmigos() {
-        return listaAmigos;
-    }
-
-    public void setListaAmigos(ArrayList<Amigo> listaAmigos) {
-        this.listaAmigos = listaAmigos;
-    }
-
-    public ArrayList<Item> getListaItens() {
-        return listaItens;
-    }
-
-    public void setListaItens(ArrayList<Item> listaItens) {
-        this.listaItens = listaItens;
-    }
-
-    public ArrayList<AtaqueChakra> getListaAtaqueChakra() {
-        return listaAtaqueChakra;
-    }
-
-    public void setListaAtaqueChakra(ArrayList<AtaqueChakra> listaAtaqueChakra) {
-        this.listaAtaqueChakra = listaAtaqueChakra;
-    }
-
+    /**
+     * Método principal chamado para iniciar o jogo.
+     * Inicializa todos os objetos e estruturas necessárias.
+     */
     public static void jogo(){
         inicializar();
     }
 
-    public static void inicializar(){
+    /**
+     * Inicializa todos os componentes essenciais do jogo:
+     * vilas, personagens, itens, e distribuições aleatórias.
+     */
+    public static void inicializar() {
+        // Cria e armazena todas as vilas do mapa
         Jogo.listaVilas = inicializarMapa();
+
+        // Inicializa Naruto e Sasuke como personagens principais
         Jogo.naruto = inicializarNaruto();
         Jogo.sasuke = inicializarSasuke();
+
+        // Inicializa as listas de amigos e inimigos NPC
         Jogo.listaAmigos = (ArrayList<Amigo>) inicializarAmigos();
         Jogo.listaInimigos = (ArrayList<Inimigo>) inicializarInimigos();
+
+        // Cria e preenche a lista global de itens disponíveis no jogo
         Jogo.listaItens = new ArrayList<>();
         Jogo.listaItens.addAll(inicializarArmaduras());
         Jogo.listaItens.addAll(inicializarArmas());
         Jogo.listaItens.addAll(inicializarConsumiveis());
         Jogo.listaItens.addAll(inicializarEspeciais());
         Jogo.listaItens.addAll(inicializarAtaquesChakra());
-        addLojaTenTen(); // adiciona itens a loja
-        distribuirArmas();  //distribui as armas para os caracteres certos e coloca armadura no sasuke
-        distribuirItens();  // distribui itens pelos amigos
-        atribuirAtaques(); // atribui os ataques de Chakra
-        organizar(); // organiza os ninjas por vila de forma a nao se repetirem e serem aleatorios mas fixos de forma a nao ser demasiado dificil encontrar o sasuke
-        esconderSasuke(); // esconde o sasuke numa vila aleatoria
+
+        // Gera itens disponíveis na loja da TenTen com base em probabilidade de spawn
+        addLojaTenTen();
+
+        // Distribui armas e equipa Sasuke com armaduras
+        distribuirArmas();
+
+        // Associa itens a amigos que podem ajudar Naruto durante o jogo
+        distribuirItens();
+
+        // Atribui ataques de chakra aos ninjas
+        atribuirAtaques();
+
+        // Coloca cada ninja numa vila, garantindo aleatoriedade e diversidade por vila
+        organizar();
+
+        // Esconde Sasuke numa vila aleatória do mapa
+        esconderSasuke();
     }
 
+
+    /**
+     * Escolhe aleatoriamente uma vila (exceto Konoha) e esconde nela o Sasuke.
+     */
     public static void esconderSasuke() {
-        // Cria uma lista de vilas válidas, exceto "Konohagakure"
+        // Cria uma lista de vilas possíveis onde o Sasuke pode ser escondido (exclui Konoha)
         ArrayList<Vila> vilasPossiveis = new ArrayList<>();
 
         for (Vila vila : Jogo.listaVilas) {
+            // Konoha (a vila segura) é excluída da seleção
             if (!vila.getNome().equals("Konohagakure (Vila da Folha)")) {
                 vilasPossiveis.add(vila);
             }
         }
-        // Escolhe uma vila aleatória entre as possíveis
+
+        // Escolhe uma vila aleatória da lista válida
         int indiceAleatorio = random(vilasPossiveis.size());
+
+        // Adiciona o Sasuke à vila escolhida
         vilasPossiveis.get(indiceAleatorio).addSasuke(Jogo.sasuke);
     }
 
+    /**
+     * Distribui itens permitidos (armas, especiais, armaduras e todos os consumíveis) aleatoriamente pelos amigos do jogo.
+     */
     private static void distribuirItens() {
         ArrayList<Item> todosItens = new ArrayList<>();
 
-        // Nomes permitidos (armas, especiais, armaduras específicas)
+        // Lista de nomes de itens permitidos para distribuir (exclui os mais fortes ou raros não mencionados)
         String[] nomesPermitidos = {
                 "Kusarigama de Chakra", "Bastão do Sábio dos Seis Caminhos", "Shuriken Elementais Gigantes",
                 "Cajado Tessen", "Flechas de Chakra", "Samehada", "Kunai Especial do Minato", "Shuriken",
@@ -192,11 +211,13 @@ public class Jogo {
                 "Calças do Sábio dos Seis Caminhos", "Calças da Anbu", "Calças de Campo Ninja"
         };
 
+        // Filtra os itens válidos para distribuição
         for (Item item : Jogo.listaItens) {
             if (item instanceof Consumivel) {
-                todosItens.add(item); // adiciona todos os consumíveis
+                // Todos os consumíveis são automaticamente válidos
+                todosItens.add(item);
             } else {
-                // verifica se o nome do item está no array permitido
+                // Verifica se o nome do item está na lista de permitidos
                 for (String nome : nomesPermitidos) {
                     if (nome.equals(item.getNome())) {
                         todosItens.add(item);
@@ -206,36 +227,50 @@ public class Jogo {
             }
         }
 
-        // Distribui aleatoriamente os itens
+        // Atribui um item aleatório da lista filtrada a cada amigo
         int quantidadeItens = todosItens.size();
         for (Amigo amigo : Jogo.listaAmigos) {
             int indexAleatorio = random(quantidadeItens);
             amigo.setItem(todosItens.get(indexAleatorio));
         }
     }
- // distribui itens pelos amigos
 
-    private static void distribuirArmas(){
+    /**
+     * Distribui armas e armaduras específicas para personagens do jogo.
+     * - Sasuke recebe sua armadura e arma icônica.
+     * - Cada inimigo recebe uma arma específica com base no seu nome.
+     * - A associação é feita com base em verificações de nomes.
+     */
+    private static void distribuirArmas() {
         for (Item arma : Jogo.listaItens) {
+
+            // ---------------------
+            // Armaduras para Sasuke
+            // ---------------------
             if (arma instanceof Armadura) {
                 Armadura armadura = (Armadura) arma;
 
                 if (arma.getNome().equalsIgnoreCase("Manto Uchiha Superior")) {
-                    Jogo.sasuke.setCima(armadura);
+                    Jogo.sasuke.setCima(armadura); // parte superior da armadura
                 }
 
                 if (arma.getNome().equalsIgnoreCase("Calças Táticas Uchiha")) {
-                    Jogo.sasuke.setBaixo(armadura);
+                    Jogo.sasuke.setBaixo(armadura); // parte inferior da armadura
                 }
             }
 
+            // --------------------------------------
+            // Armas para Sasuke e inimigos específicos
+            // --------------------------------------
             if (arma instanceof Arma) {
                 Arma armaConvertida = (Arma) arma;
 
+                // Arma exclusiva de Sasuke
                 if (arma.getNome().equalsIgnoreCase("Kusanagi")) {
                     Jogo.sasuke.setArma(armaConvertida);
                 }
 
+                // Armas específicas para inimigos, associadas pelo nome do ninja
                 if (arma.getNome().equalsIgnoreCase("Cabaça de Areia")) {
                     for (Inimigo inimigo : listaInimigos) {
                         if (inimigo.getNome().equalsIgnoreCase("Gaara")) {
@@ -487,20 +522,24 @@ public class Jogo {
                         }
                     }
                 }
-
             }
         }
-    }//distribui as armas para os caracteres certos e coloca armadura no sasuke
+    }
 
+    /**
+     * Organiza os ninjas (amigos e inimigos) nas vilas da mesma região.
+     * Garante que os ninjas sejam distribuídos aleatoriamente,
+     * mas apenas dentro da sua localização geográfica correspondente.
+     */
     public static void organizar() {
-        // Listas para armazenar as vilas separadas por região
+        // Listas para armazenar vilas por localização
         ArrayList<Vila> centralOrienteVilas = new ArrayList<>();
         ArrayList<Vila> nordesteVilas = new ArrayList<>();
         ArrayList<Vila> noroesteVilas = new ArrayList<>();
         ArrayList<Vila> sudesteVilas = new ArrayList<>();
         ArrayList<Vila> sudoesteVilas = new ArrayList<>();
 
-        // Distribui cada vila na sua respectiva lista regional
+        // Separar vilas por região
         for (Vila vila : Jogo.listaVilas) {
             switch (vila.getLocalizacao()) {
                 case CENTRALORIENTE -> centralOrienteVilas.add(vila);
@@ -511,14 +550,14 @@ public class Jogo {
             }
         }
 
-        // Listas para armazenar todos os ninjas (amigos + inimigos) por região
+        // Listas de ninjas (amigos + inimigos) por região
         ArrayList<Ninja> centralOrienteNinjas = new ArrayList<>();
         ArrayList<Ninja> nordesteNinjas = new ArrayList<>();
         ArrayList<Ninja> noroesteNinjas = new ArrayList<>();
         ArrayList<Ninja> sudesteNinjas = new ArrayList<>();
         ArrayList<Ninja> sudoesteNinjas = new ArrayList<>();
 
-        // Adiciona todos os ninjas (inimigos e amigos) nas listas regionais
+        // Distribuir inimigos por localização
         for (Inimigo ninja : Jogo.listaInimigos) {
             switch (ninja.getLocalizacao()) {
                 case CENTRALORIENTE -> centralOrienteNinjas.add(ninja);
@@ -528,6 +567,8 @@ public class Jogo {
                 case SUDOESTE -> sudoesteNinjas.add(ninja);
             }
         }
+
+        // Distribuir amigos por localização
         for (Amigo ninja : Jogo.listaAmigos) {
             switch (ninja.getLocalizacao()) {
                 case CENTRALORIENTE -> centralOrienteNinjas.add(ninja);
@@ -538,14 +579,14 @@ public class Jogo {
             }
         }
 
-        // Embaralha os ninjas de cada região para distribuição aleatória
+        // Embaralhar ninjas antes da distribuição
         Collections.shuffle(centralOrienteNinjas);
         Collections.shuffle(nordesteNinjas);
         Collections.shuffle(noroesteNinjas);
         Collections.shuffle(sudesteNinjas);
         Collections.shuffle(sudoesteNinjas);
 
-        // Distribui os ninjas aleatoriamente pelas vilas da mesma região
+        // Distribuir ninjas por vilas conforme sua localização
         distribuirNinjasPorVilas(centralOrienteVilas, centralOrienteNinjas);
         distribuirNinjasPorVilas(nordesteVilas, nordesteNinjas);
         distribuirNinjasPorVilas(noroesteVilas, noroesteNinjas);
@@ -553,27 +594,42 @@ public class Jogo {
         distribuirNinjasPorVilas(sudoesteVilas, sudoesteNinjas);
     }
 
+    /**
+     * Distribui uma lista de ninjas pelas vilas de uma determinada região.
+     * A distribuição é feita de forma cíclica: cada ninja é colocado numa vila,
+     * e quando chega à última vila, recomeça na primeira.
+     *
+     * @param vilas Lista de vilas de uma mesma região.
+     * @param ninjas Lista de ninjas (amigos ou inimigos) a serem distribuídos.
+     */
     private static void distribuirNinjasPorVilas(ArrayList<Vila> vilas, ArrayList<Ninja> ninjas) {
         if (vilas.isEmpty() || ninjas.isEmpty()) {
-            return; // Não há vilas ou ninjas para distribuir
+            return; // Evita erro se uma das listas estiver vazia
         }
 
         int vilaIndex = 0;
+
         for (Ninja ninja : ninjas) {
             // Adiciona o ninja à vila atual
             vilas.get(vilaIndex).getListaNinjas().add(ninja);
 
-            // Avança para a próxima vila (cíclico)
-            vilaIndex = (vilaIndex + 1) % vilas.size(); // Quando chega ao tamanho de vilas por ex. 3, 3%3 = 0 volta a primeira vila, por exemplo na 2, 2%3 = 2. entao fica na 2, so quando e igual volta a 0
+            // Avança para a próxima vila de forma cíclica
+            // Exemplo: se há 3 vilas e vilaIndex chega a 3, volta para 0
+            vilaIndex = (vilaIndex + 1) % vilas.size();
         }
     }
 
+    /**
+     * Atribui ataques especiais de chakra a personagens específicos.
+     * Cada ataque é verificado pelo seu nome e associado ao personagem correspondente,
+     * como Naruto, Sasuke ou inimigos específicos.
+     */
     private static void atribuirAtaques() {
         for (Item ataqueChakra : Jogo.listaItens) {
             if (ataqueChakra instanceof AtaqueChakra) {
                 AtaqueChakra ataque = (AtaqueChakra) ataqueChakra;
 
-                // Sasuke
+                // === ATAQUES DE SASUKE ===
                 if (ataque.getNome().equalsIgnoreCase("Chidori")) {
                     Jogo.sasuke.setAtaqueEspecial1(ataque);
                 }
@@ -581,7 +637,7 @@ public class Jogo {
                     Jogo.sasuke.setAtaqueEspecial2(ataque);
                 }
 
-                // Naruto
+                // === ATAQUES DE NARUTO ===
                 if (ataque.getNome().equalsIgnoreCase("Rasengan")) {
                     Jogo.naruto.setAtaqueEspecial1(ataque);
                 }
@@ -589,7 +645,7 @@ public class Jogo {
                     Jogo.naruto.setAtaqueEspecial2(ataque);
                 }
 
-                // Inimigos
+                // === ATAQUES DE INIMIGOS ===
                 if (ataque.getNome().equalsIgnoreCase("Caixão de Areia")) {
                     Inimigo g = buscarInimigo("Gaara");
                     if (g != null) g.setAtaqueEspecial1(ataque);
@@ -679,37 +735,22 @@ public class Jogo {
     }
 
 
+    /**
+     * Procura e retorna um inimigo da lista de inimigos com base no nome fornecido.
+     *
+     * @param nome o nome do inimigo a procurar
+     * @return o objeto Inimigo correspondente, ou null se não for encontrado
+     */
     private static Inimigo buscarInimigo(String nome) {
         for (Inimigo inimigo : listaInimigos) {
+            // Compara o nome ignorando diferenças entre maiúsculas e minúsculas
             if (inimigo.getNome().equalsIgnoreCase(nome)) {
                 return inimigo;
             }
         }
+        // Retorna null se o inimigo não for encontrado
         return null;
     }
 
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
