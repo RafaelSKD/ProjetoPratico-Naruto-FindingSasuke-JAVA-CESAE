@@ -1,93 +1,100 @@
 # 🌀 Naruto: Finding Sasuke - Java RPG Game
 
-![Game Cover](LINK_DA_IMAGEM_CAPA_AQUI)
+<div align="center">
+  <img src="https://i.imgur.com/GVj37ZT.gif" alt="Game Cover">
+</div>
 
-A Java-based console RPG where you take control of Naruto on an epic mission to find and bring Sasuke back to Konoha. This project was developed as part of the **Object-Oriented Programming** curriculum at Cesae.
+Um RPG de consola em Java onde assumes o controlo de Naruto numa missão épica para trazer Sasuke de volta a Konoha. Este projeto foi desenvolvido como parte da disciplina de **Programação Orientada aos Objetos** no Cesae.
 
 > 🧠 **Professor/Sensei:** Vitor Santos  
-> 🎓 **Discipline:** Object-Oriented Programming
+> 🎓 **Disciplina:** Programação Orientada aos Objetos
 
 ---
 
 ## 🎮 Game Overview
 
-Step into the shoes of Naruto Uzumaki and explore various regions of the ninja world. Train, fight, collect items, and survive dangerous encounters in your journey to confront Sasuke in the final battle!
+Entra na pele de Naruto Uzumaki e explora várias regiões do mundo ninja. Treina, luta, recolhe itens e sobrevive a encontros perigosos até confrontares Sasuke na batalha final!
 
 ---
 
 ## 🗺️ Features
 
-### 🧭 Navigation
-![Navigation Screenshot](LINK_DA_IMAGEM_NAVEGACAO)
+### 🧭 Navegação
+<div align="center">
+  <img src="https://i.imgur.com/9AnevHh.png" alt="Navigation Screenshot">
+</div>
 
-- Explore diverse zones: desert, mountains, coastline, rainy forests, etc.
-- Random events like enemy encounters, friendly ninjas, or rare items.
+- Explora zonas diversas: deserto, montanhas, litoral, florestas chuvosas, etc.
+- Eventos aleatórios como inimigos, ninjas aliados ou itens raros.
 
-### ⚔️ Combat System
-![Combat Screenshot](LINK_DA_IMAGEM_LUTA)
+### ⚔️ Sistema de Combate
+<div align="center">
+  <img src="https://i.imgur.com/sURKtDX.gif" alt="Combat Screenshot">
+</div>
 
-- Normal attacks, elemental jutsus (chakra-based), and weapon usage.
-- Chakra affinity system (Fire > Wind > Lightning > Earth > Water > Fire).
-- Strategic advantage/disadvantage system (+20% damage).
+- Ataques normais, jutsus elementares (baseados em chakra) e uso de armas.
+- Sistema de afinidade elemental (Fogo > Vento > Relâmpago > Terra > Água > Fogo).
+- Vantagens/desvantagens estratégicas (+20% de dano).
 
-### 🎒 Inventory & Items
-![Inventory Screenshot](LINK_DA_IMAGEM_MOCHILA)
+### 🎒 Inventário & Itens
+<div align="center">
+  <img src="https://i.imgur.com/ul5CezX.png" alt="Inventory Screenshot">
+</div>
 
-- Carry consumables, special gear, weapons, and armor.
-- Use items to heal, recover chakra, or boost stats.
+- Leva consumíveis, equipamento especial, armas e armaduras.
+- Usa itens para curar, recuperar chakra ou melhorar atributos.
 
 ### 🏯 Konoha (Base)
-![Konoha Screenshot](LINK_DA_IMAGEM_KONOHA)
+<div align="center">
+  <img src="https://i.imgur.com/whkhsrR.gif" alt="Konoha Screenshot">
+</div>
 
-- Train to boost strength.
-- Rest to recover chakra.
-- Visit Ichiraku Ramen to restore health.
-- Access shop and hospital.
+- Treina para aumentar a força.
+- Descansa para recuperar chakra.
+- Visita o Ichiraku Ramen para recuperar saúde.
+- Acede à loja e ao hospital.
 
-### 🛒 Shop System
-![Shop Screenshot](LINK_DA_IMAGEM_LOJA)
+### 🛒 Sistema de Loja
+<div align="center">
+  <img src="https://i.imgur.com/keY2Vtb.png" alt="Shop Screenshot">
+</div>
 
-- Buy weapons, armor, consumables, and rare special items.
-- Currency is earned in battle or through exploration.
-
----
-
-## 🧠 Mechanics & Strategy
-
-- **Elemental Advantage**: Affinity affects damage.
-- **Chakra Management**: No chakra = no jutsus!
-- **Rarity System**: Special items are rare (~10% drop rate).
-- **Final Battle**: Sasuke awaits — make sure you’re ready!
+- Compra armas, armaduras, consumíveis e itens raros.
+- A moeda é ganha em combate ou durante a exploração.
 
 ---
 
-## 🛠️ Tech Stack
+## 🧠 Mecânicas & Estratégia
 
-- Java
-- Console-based interface
-- Object-Oriented Design (OOP Principles)
-- Package structure: `Jogo`, `Menus`, `Itens`, `Ninjas`, `Utils`, etc.
-
----
-
-## 📚 Educational Purpose
-
-This project was developed to apply principles of:
-
-- Object-Oriented Programming (Inheritance, Encapsulation, Polymorphism)
-- Java package management
-- Game state and combat logic
-- Input/output and file-based interfaces
-- Modular design and clean architecture
+- **Vantagem Elemental**: Afinidade afeta o dano.
+- **Gestão de Chakra**: Sem chakra = sem jutsus!
+- **Sistema de Raridade**: Itens especiais têm ~10% de taxa de drop.
+- **Batalha Final**: Sasuke espera — prepara-te bem!
 
 ---
 
-## 💡 Getting Started
+## 🛠️ Tecnologias Utilizadas
 
-To run the game:
+- Java  
+- Interface via consola  
+- Design Orientado a Objetos (Princípios OOP)  
+- Estrutura modular: `Jogo`, `Menus`, `Itens`, `Ninjas`, `Utils`, etc.
 
-```bash
-git clone https://github.com/SEU_USUARIO/NarutoFindingSasuke.git
-cd NarutoFindingSasuke
-javac Main.java
-java Main
+---
+
+## 📚 Objetivo Educacional
+
+Projeto criado para aplicar princípios de:
+
+- Programação Orientada a Objetos (Herança, Encapsulamento, Polimorfismo)  
+- Gestão de pacotes em Java  
+- Lógica de combate e estados de jogo  
+- Interface com utilizador via input/output  
+- Design modular e arquitetura limpa  
+
+---
+
+### CREDITS
+<div align="center">
+  <img src="https://i.imgur.com/Nixd0iW.gif" alt="Credits">
+</div>
